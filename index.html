@@ -1404,7 +1404,7 @@ function clampRoundInput(el) {
   el.value = num;
 }
 
-
+function updateRoundTotal(fid) {
   const card = document.getElementById('mc-' + fid);
   if (!card) return;
   const f = allFixtures.find(x => x.id == fid);
