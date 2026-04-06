@@ -61,7 +61,7 @@ body {
   background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px;
   padding: 32px; width: 100%; max-width: 380px; box-shadow: var(--shadow);
 }
-.login-card h2 { font-size: 1.1rem; color: var(--gold); margin-bottom: 24px; font-weight: 700; }
+.login-card h2 { font-size: 0.9rem; color: var(--gold); margin-bottom: 24px; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; }
 .field { margin-bottom: 16px; }
 .field label { display: block; font-size: 0.78rem; color: var(--grey); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
 .field input, .field select, .field textarea {
@@ -80,8 +80,9 @@ body {
 .btn {
   display: inline-flex; align-items: center; gap: 6px;
   padding: 9px 18px; border-radius: 8px; border: none; cursor: pointer;
-  font-size: 0.88rem; font-weight: 600; font-family: inherit;
+  font-size: 0.78rem; font-weight: 700; font-family: inherit;
   transition: all 0.15s; white-space: nowrap;
+  text-transform: uppercase; letter-spacing: 0.8px;
 }
 .btn-gold { background: var(--gold); color: var(--navy); }
 .btn-gold:hover { background: var(--gold-light); }
@@ -105,14 +106,15 @@ body {
   display: flex; align-items: center; gap: 16px;
   max-width: 1200px; margin: 0 auto; padding: 0 16px; height: 54px;
 }
-.brand { font-weight: 900; font-size: 1rem; color: var(--gold); letter-spacing: -0.5px; white-space: nowrap; }
+.brand { font-weight: 900; font-size: 1rem; color: var(--gold); letter-spacing: 2px; white-space: nowrap; text-transform: uppercase; }
 .brand span { color: var(--grey); font-weight: 400; }
 nav { display: flex; gap: 2px; overflow-x: auto; flex: 1; }
 nav::-webkit-scrollbar { height: 0; }
 .nav-btn {
   background: none; border: none; color: var(--grey); cursor: pointer;
-  padding: 6px 10px; border-radius: 6px; font-size: 0.82rem; font-family: inherit;
-  white-space: nowrap; transition: all 0.15s; font-weight: 500;
+  padding: 6px 10px; border-radius: 6px; font-size: 0.75rem; font-family: inherit;
+  white-space: nowrap; transition: all 0.15s; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.8px;
 }
 .nav-btn:hover { color: var(--white); background: rgba(255,255,255,0.07); }
 .nav-btn.active { color: var(--gold); background: rgba(240,180,41,0.1); }
@@ -137,8 +139,8 @@ nav::-webkit-scrollbar { height: 0; }
   display: flex; align-items: center; justify-content: space-between;
   flex-wrap: wrap; gap: 12px; margin-bottom: 20px;
 }
-.section-title { font-size: 1.25rem; font-weight: 800; color: var(--white); }
-.section-title small { font-weight: 400; color: var(--grey); font-size: 0.8rem; margin-left: 8px; }
+.section-title { font-size: 1.1rem; font-weight: 800; color: var(--white); text-transform: uppercase; letter-spacing: 1.5px; }
+.section-title small { font-weight: 400; color: var(--grey); font-size: 0.75rem; margin-left: 8px; letter-spacing: 0; text-transform: none; }
 .btn-group { display: flex; gap: 8px; flex-wrap: wrap; }
 
 /* ── CARDS ── */
@@ -170,7 +172,7 @@ nav::-webkit-scrollbar { height: 0; }
 .podium-2 { background: linear-gradient(180deg, rgba(192,192,192,0.2) 0%, rgba(192,192,192,0.07) 100%); border: 1px solid #aaa; min-height: 85px; }
 .podium-3 { background: linear-gradient(180deg, rgba(180,100,40,0.2) 0%, rgba(180,100,40,0.07) 100%); border: 1px solid #a0703a; min-height: 70px; }
 .podium-medal { font-size: 1.4rem; }
-.podium-name { font-size: 0.78rem; color: var(--white); margin-top: 4px; line-height: 1.2; }
+.podium-name { font-size: 0.72rem; color: var(--white); margin-top: 4px; line-height: 1.2; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700; }
 .podium-pts { font-size: 1rem; color: var(--gold); font-weight: 900; }
 
 /* ── TABLE ── */
@@ -178,8 +180,8 @@ nav::-webkit-scrollbar { height: 0; }
 table { width: 100%; border-collapse: collapse; }
 thead th {
   background: rgba(240,180,41,0.08); color: var(--gold);
-  font-size: 0.73rem; text-transform: uppercase; letter-spacing: 1px;
-  padding: 10px 12px; text-align: left; font-weight: 700; white-space: nowrap;
+  font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1.2px;
+  padding: 10px 12px; text-align: left; font-weight: 800; white-space: nowrap;
 }
 tbody tr { border-top: 1px solid rgba(255,255,255,0.05); transition: background 0.12s; }
 tbody tr:hover { background: rgba(255,255,255,0.04); }
@@ -267,11 +269,11 @@ tr.rank-3 td:first-child { border-left: 3px solid #a0703a; }
 .chip-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 16px; }
 .chip {
   padding: 5px 12px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.15);
-  background: transparent; color: var(--grey); cursor: pointer; font-size: 0.8rem;
-  font-family: inherit; transition: all 0.15s;
+  background: transparent; color: var(--grey); cursor: pointer; font-size: 0.7rem;
+  font-family: inherit; transition: all 0.15s; text-transform: uppercase; letter-spacing: 0.8px; font-weight: 700;
 }
 .chip:hover { border-color: var(--gold); color: var(--white); }
-.chip.active { background: rgba(240,180,41,0.15); border-color: var(--gold); color: var(--gold); font-weight: 600; }
+.chip.active { background: rgba(240,180,41,0.15); border-color: var(--gold); color: var(--gold); font-weight: 700; }
 
 /* ── TEAM CARDS ── */
 .teams-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
@@ -281,8 +283,8 @@ tr.rank-3 td:first-child { border-left: 3px solid #a0703a; }
 }
 .team-card-strip { height: 6px; }
 .team-card-body { padding: 14px 16px; }
-.team-card-name { font-weight: 800; font-size: 1rem; margin-bottom: 6px; }
-.team-card-players { font-size: 0.8rem; color: var(--grey); margin-bottom: 10px; }
+.team-card-name { font-weight: 800; font-size: 0.95rem; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.8px; }
+.team-card-players { font-size: 0.78rem; color: var(--grey); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
 .team-card-stats { display: flex; gap: 12px; font-size: 0.8rem; }
 .team-card-stat span { font-weight: 700; color: var(--gold); }
 .team-card-actions { display: flex; gap: 8px; margin-top: 12px; }
@@ -307,7 +309,7 @@ tr.rank-3 td:first-child { border-left: 3px solid #a0703a; }
   border-radius: var(--radius); padding: 20px; text-align: center;
 }
 .award-trophy { font-size: 2.4rem; margin-bottom: 8px; }
-.award-title { font-weight: 800; font-size: 1rem; color: var(--gold); margin-bottom: 4px; }
+.award-title { font-weight: 800; font-size: 0.9rem; color: var(--gold); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
 .award-winner { font-size: 0.9rem; font-weight: 600; }
 .award-sub { font-size: 0.78rem; color: var(--grey); margin-top: 4px; }
 .award-photo { width: 60px; height: 60px; border-radius: 50%; object-fit: cover; margin: 0 auto 10px; display: block; border: 2px solid var(--gold); }
@@ -322,7 +324,7 @@ tr.rank-3 td:first-child { border-left: 3px solid #a0703a; }
   border-radius: 8px; padding: 12px 16px; margin-bottom: 8px;
 }
 .audit-header { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 6px; }
-.audit-who { font-weight: 700; font-size: 0.85rem; }
+.audit-who { font-weight: 800; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.8px; }
 .audit-when { font-size: 0.75rem; color: var(--grey); }
 .audit-type { font-size: 0.7rem; }
 .audit-detail { font-size: 0.8rem; color: var(--grey); margin-top: 6px; }
@@ -332,20 +334,20 @@ tr.rank-3 td:first-child { border-left: 3px solid #a0703a; }
 
 /* ── SETTINGS ── */
 .settings-section { margin-bottom: 28px; }
-.settings-section h3 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: var(--gold); margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; }
+.settings-section h3 { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--gold); margin-bottom: 14px; border-bottom: 1px solid var(--border); padding-bottom: 8px; font-weight: 800; }
 .account-row { display: flex; align-items: center; gap: 10px; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.05); flex-wrap: wrap; }
-.account-name { font-weight: 600; font-size: 0.88rem; min-width: 100px; }
+.account-name { font-weight: 700; font-size: 0.82rem; min-width: 100px; text-transform: uppercase; letter-spacing: 0.8px; }
 .pw-blur { filter: blur(5px); cursor: pointer; font-size: 0.85rem; font-family: monospace; transition: filter 0.2s; }
 .pw-blur.revealed { filter: none; }
 .info-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 10px; }
 .info-box { background: rgba(255,255,255,0.04); border-radius: 8px; padding: 12px; text-align: center; }
 .info-box .info-num { font-size: 1.5rem; font-weight: 800; color: var(--gold); }
-.info-box .info-label { font-size: 0.72rem; color: var(--grey); }
+.info-box .info-label { font-size: 0.68rem; color: var(--grey); text-transform: uppercase; letter-spacing: 1px; }
 
 /* ── KNOCKOUT BRACKET ── */
 .bracket-wrap { display: flex; gap: 20px; overflow-x: auto; padding: 10px 0; }
 .bracket-col { display: flex; flex-direction: column; gap: 16px; min-width: 160px; }
-.bracket-label { font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+.bracket-label { font-size: 0.65rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 4px; font-weight: 800; }
 .bracket-match { background: rgba(255,255,255,0.05); border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
 .bracket-team {
   padding: 8px 12px; font-size: 0.82rem; font-weight: 600;
@@ -372,7 +374,7 @@ tr.rank-3 td:first-child { border-left: 3px solid #a0703a; }
   padding: 20px 24px 16px; border-bottom: 1px solid var(--border); position: sticky; top: 0;
   background: var(--navy-light); z-index: 1;
 }
-.modal-title { font-size: 1.1rem; font-weight: 800; color: var(--gold); }
+.modal-title { font-size: 1rem; font-weight: 800; color: var(--gold); text-transform: uppercase; letter-spacing: 1.5px; }
 .modal-close { background: none; border: none; color: var(--grey); cursor: pointer; font-size: 1.3rem; line-height: 1; padding: 4px; }
 .modal-close:hover { color: var(--white); }
 .modal-body { padding: 20px 24px; }
@@ -436,23 +438,240 @@ tr.rank-3 td:first-child { border-left: 3px solid #a0703a; }
 .fw-bold { font-weight: 700; }
 input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,255,0.15); border-radius: 6px; cursor: pointer; background: none; padding: 2px; }
 .stats-section-title {
-  font-size: 0.88rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
+  font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px;
   color: var(--gold); margin-bottom: 10px; padding-left: 2px;
 }
 .stats-rank-1 td { color: var(--gold); font-weight: 700; }
 .stats-rank-2 td { color: #c0c0c0; }
 .stats-rank-3 td { color: #a0703a; }
 .first-login-notice { background: rgba(240,180,41,0.1); border: 1px solid rgba(240,180,41,0.3); border-radius: 8px; padding: 12px 16px; margin-bottom: 20px; font-size: 0.85rem; color: var(--gold); }
+
+/* ── FLOATING SUITS BG (7) ── */
+.suit-float {
+  position: fixed; pointer-events: none; z-index: 0;
+  font-size: 6rem; user-select: none; line-height: 1; opacity: 0.035;
+}
+.suit-float.s1 { top: 8vh;  left: 4vw;  color: var(--white);  animation: floatA 9s ease-in-out infinite; }
+.suit-float.s2 { top: 12vh; right: 6vw; color: var(--red);    animation: floatB 11s ease-in-out infinite; }
+.suit-float.s3 { top: 45vh; left: 2vw;  color: var(--red);    animation: floatC 8s ease-in-out infinite; font-size: 4rem; }
+.suit-float.s4 { bottom: 12vh; right: 3vw; color: var(--white); animation: floatA 13s ease-in-out infinite; }
+.suit-float.s5 { bottom: 20vh; left: 8vw;  color: var(--white); animation: floatB 10s ease-in-out infinite; font-size: 3.5rem; }
+.suit-float.s6 { top: 60vh; right: 10vw; color: var(--red);   animation: floatC 14s ease-in-out infinite; font-size: 3rem; }
+@keyframes floatA { 0%,100%{transform:translateY(0) rotate(-12deg);} 50%{transform:translateY(-18px) rotate(-8deg);} }
+@keyframes floatB { 0%,100%{transform:translateY(0) rotate(15deg);} 50%{transform:translateY(-22px) rotate(10deg);} }
+@keyframes floatC { 0%,100%{transform:translateY(0) rotate(20deg);} 50%{transform:translateY(-12px) rotate(26deg);} }
+
+/* ── GOLD SHIMMER BRAND (8) ── */
+.brand-shimmer {
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold-dim), var(--gold-light), var(--gold));
+  background-size: 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; animation: shimmerBrand 4s linear infinite;
+}
+@keyframes shimmerBrand { 0%{background-position:0%;} 100%{background-position:300%;} }
+
+/* ── STAT BOX UPGRADES (2) ── */
+.stat-box {
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+  padding: 18px 20px; text-align: center; position: relative; overflow: hidden;
+}
+.stat-box::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: var(--gold); transform: scaleX(0); transform-origin: left;
+  animation: statBarIn 0.8s ease forwards;
+}
+.stat-box:nth-child(1)::after { animation-delay: 0.1s; }
+.stat-box:nth-child(2)::after { animation-delay: 0.2s; }
+.stat-box:nth-child(3)::after { animation-delay: 0.3s; }
+.stat-box:nth-child(4)::after { animation-delay: 0.4s; }
+@keyframes statBarIn { to { transform: scaleX(1); } }
+.stat-box .stat-watermark {
+  position: absolute; bottom: -6px; right: -4px; font-size: 3rem; opacity: 0.06; pointer-events: none; line-height: 1;
+}
+.stat-box .stat-num { font-size: 2rem; font-weight: 900; color: var(--gold); line-height: 1; animation: countFade 0.5s ease both; }
+.stat-box:nth-child(1) .stat-num { animation-delay: 0.15s; }
+.stat-box:nth-child(2) .stat-num { animation-delay: 0.25s; }
+.stat-box:nth-child(3) .stat-num { animation-delay: 0.35s; }
+.stat-box:nth-child(4) .stat-num { animation-delay: 0.45s; }
+@keyframes countFade { from{opacity:0;transform:translateY(8px);} to{opacity:1;transform:none;} }
+.stat-box .stat-label { font-size: 0.75rem; color: var(--grey); margin-top: 4px; text-transform: uppercase; letter-spacing: 1px; }
+.stat-box .stat-sub { font-size: 0.7rem; color: var(--grey); margin-top: 2px; }
+
+/* ── PROGRESS BAR (3) ── */
+.progress-card {
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px;
+  padding: 16px 20px; margin-bottom: 20px;
+}
+.progress-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
+.progress-title { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--grey); }
+.progress-frac { font-size: 0.9rem; font-weight: 900; color: var(--gold); }
+.progress-track { height: 8px; background: rgba(255,255,255,0.07); border-radius: 4px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--gold); border-radius: 4px; transition: width 1s ease; width: 0; }
+.progress-sub { margin-top: 8px; font-size: 0.75rem; color: var(--grey); }
+
+/* ── NEXT MATCH CARD (6) ── */
+.next-match-card {
+  background: var(--card-bg); border: 1px solid rgba(240,180,41,0.4); border-radius: 12px;
+  padding: 14px 18px; margin-bottom: 20px; position: relative; overflow: hidden;
+}
+.next-match-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light), var(--gold));
+  background-size: 200%; animation: shimmerBrand 2s linear infinite;
+}
+.next-match-label { font-size: 0.65rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); margin-bottom: 8px; }
+.next-match-teams { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px; }
+.next-match-vs { display: flex; align-items: center; gap: 8px; }
+.next-match-meta { text-align: right; }
+.next-match-date { font-weight: 800; color: var(--gold); font-size: 0.88rem; }
+.next-match-info { font-size: 0.72rem; color: var(--grey); margin-top: 2px; }
+
+/* ── PODIUM ANIMATION (9) ── */
+.podium-block { animation: podiumRise 0.7s ease both; }
+.podium-item:nth-child(1) .podium-block { animation-delay: 0.3s; }
+.podium-item:nth-child(2) .podium-block { animation-delay: 0.1s; }
+.podium-item:nth-child(3) .podium-block { animation-delay: 0.5s; }
+@keyframes podiumRise { from{transform:translateY(60px);opacity:0;} to{transform:none;opacity:1;} }
+.podium-1 { box-shadow: 0 0 24px rgba(240,180,41,0.2); }
+
+/* ── TEAM COLOUR GLOW ROWS (10) ── */
+.standings-colour-row { border-left-width: 3px !important; border-left-style: solid !important; border-radius: 0 !important; }
+
+/* ── YOUR TEAM ROW (11) ── */
+.your-team-row { outline: 1.5px solid var(--blue) !important; background: rgba(74,158,255,0.06) !important; position: relative; }
+.your-team-badge {
+  display: inline-block; background: var(--blue); color: #fff;
+  font-size: 0.6rem; font-weight: 800; letter-spacing: 1px; padding: 1px 6px;
+  border-radius: 8px; text-transform: uppercase; margin-left: 6px; vertical-align: middle;
+}
+
+/* ── BUTTON RIPPLE (12) ── */
+.btn { position: relative; overflow: hidden; }
+.ripple-effect {
+  position: absolute; border-radius: 50%; background: rgba(240,180,41,0.35);
+  transform: scale(0); animation: rippleAnim 0.5s ease; pointer-events: none;
+}
+@keyframes rippleAnim { to { transform: scale(3); opacity: 0; } }
+
+/* ── SPARKLINES (13) ── */
+.sparkline-row {
+  display: flex; align-items: center; gap: 10px; padding: 8px 14px;
+  background: var(--card-bg); border: 1px solid var(--border); border-radius: 8px; margin-bottom: 6px;
+}
+.sparkline-row:last-child { margin-bottom: 0; }
+.sparkline-team { font-weight: 800; font-size: 0.85rem; min-width: 80px; }
+.sparkline-trend { font-size: 0.72rem; font-weight: 700; margin-left: auto; }
+
+/* ── PLAYING CARD STYLE (15) ── */
+.match-card-pip-tl, .match-card-pip-br {
+  position: absolute; font-size: 0.65rem; font-weight: 900; color: rgba(240,180,41,0.3);
+  font-family: monospace; line-height: 1;
+}
+.match-card-pip-tl { top: 6px; left: 10px; }
+.match-card-pip-br { bottom: 6px; right: 10px; transform: rotate(180deg); }
+.match-card { position: relative; }
+
+/* ── IMPROVED TOAST (17) ── */
+.toast {
+  background: var(--navy-light); border: 1px solid var(--border); border-radius: 12px;
+  padding: 11px 14px; font-size: 0.83rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.45); animation: toastSlide 0.3s ease;
+  display: flex; align-items: center; gap: 10px;
+}
+.toast.success { border-color: rgba(76,175,125,0.4); }
+.toast.error   { border-color: rgba(224,85,85,0.4); }
+.toast.info    { border-color: rgba(74,158,255,0.4); }
+.toast-icon-wrap {
+  width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; flex-shrink: 0; font-size: 14px;
+}
+.toast.success .toast-icon-wrap { background: rgba(76,175,125,0.15); }
+.toast.error   .toast-icon-wrap { background: rgba(224,85,85,0.15); }
+.toast.info    .toast-icon-wrap { background: rgba(74,158,255,0.15); }
+.toast-body .toast-title { font-weight: 800; font-size: 0.82rem; color: var(--white); }
+.toast-body .toast-sub   { font-size: 0.7rem; color: var(--grey); margin-top: 1px; }
+@keyframes toastSlide { from{transform:translateX(50px);opacity:0;} to{transform:none;opacity:1;} }
+
+/* ── RESULT RIBBON (18) ── */
+.match-ribbon {
+  position: absolute; top: 10px; right: -22px; width: 72px;
+  font-size: 0.6rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+  text-align: center; padding: 3px 0; transform: rotate(45deg); color: #fff;
+}
+.match-ribbon.win  { background: var(--green); }
+.match-ribbon.draw { background: var(--blue); }
+.match-ribbon.loss { background: var(--red); }
+
+/* ── SCORE REVEAL (22) ── */
+.match-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); }
+.match-body.open { display: block; animation: bodyReveal 0.28s ease; }
+@keyframes bodyReveal { from{opacity:0;transform:translateY(-6px);} to{opacity:1;transform:none;} }
+
+/* ── PAGE FADE (24) ── */
+.page.active { display: block; animation: pageFade 0.18s ease; }
+@keyframes pageFade { from{opacity:0;transform:translateY(5px);} to{opacity:1;transform:none;} }
+
+/* ── ROUND SCORE BARS (5) ── */
+.round-bar-wrap { grid-column: 1/-1; margin-top: 2px; }
+.round-bar-track { height: 5px; background: rgba(255,255,255,0.07); border-radius: 3px; display: flex; gap: 2px; overflow: hidden; margin-bottom: 2px; }
+.round-bar-t1 { height: 100%; background: var(--gold); border-radius: 2px; transition: width 0.6s ease; }
+.round-bar-t2 { height: 100%; background: var(--blue);  border-radius: 2px; transition: width 0.6s ease; }
+.round-bar-labels { display: flex; justify-content: space-between; font-size: 0.65rem; }
+
+/* ── CONFETTI (21) ── */
+.confetti-piece {
+  position: fixed; pointer-events: none; z-index: 9999; border-radius: 2px;
+  animation: confettiFall linear forwards;
+}
+@keyframes confettiFall {
+  0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+
+/* ── MOBILE: TOUCH-FRIENDLY INPUTS (20) ── */
 @media (max-width: 600px) {
   .header-inner { padding: 0 10px; }
-  .page { padding: 16px 10px 70px; }
+  .page { padding: 16px 10px 80px; }
   .brand span { display: none; }
   .stat-grid { grid-template-columns: repeat(2, 1fr); }
   .rounds-grid { grid-template-columns: 1fr 24px 1fr; }
+  .round-input { padding: 12px 8px; font-size: 1.1rem; font-weight: 800; }
+  .show-select { padding: 12px 10px; font-size: 0.9rem; }
+  /* BOTTOM NAV (1) — hides top nav on mobile */
+  #appHeader nav { display: none; }
+  #bottomNav { display: flex !important; }
 }
+/* ── BOTTOM NAV (1) ── */
+#bottomNav {
+  display: none; position: fixed; bottom: 0; left: 0; right: 0; z-index: 300;
+  background: rgba(10,22,40,0.97); border-top: 1px solid var(--border);
+  backdrop-filter: blur(10px); padding: 6px 0 max(6px, env(safe-area-inset-bottom));
+}
+.bnav-inner { display: flex; max-width: 600px; margin: 0 auto; }
+.bnav-item {
+  flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+  cursor: pointer; padding: 4px 2px; background: none; border: none;
+  color: var(--grey); font-family: inherit;
+}
+.bnav-item.active { color: var(--gold); }
+.bnav-icon { font-size: 20px; line-height: 1; }
+.bnav-label { font-size: 8px; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase; }
+.bnav-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); margin-top: 1px; }
+
 </style>
 </head>
 <body>
+<!-- FLOATING SUITS BG (7) -->
+<div class="suit-float s1">♠</div>
+<div class="suit-float s2">♥</div>
+<div class="suit-float s3">♦</div>
+<div class="suit-float s4">♣</div>
+<div class="suit-float s5">♠</div>
+<div class="suit-float s6">♥</div>
+
+<!-- BOTTOM NAV (1) — shown only on mobile -->
+<nav id="bottomNav">
+  <div class="bnav-inner" id="bnavInner"></div>
+</nav>
 
 <!-- SETUP SCREEN -->
 <div id="setupScreen" style="display:none;flex-direction:column;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:radial-gradient(ellipse at 50% 0%, rgba(240,180,41,0.12) 0%, transparent 70%), var(--navy);">
@@ -497,7 +716,7 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
 <div id="app" style="display:none;">
   <header id="appHeader">
     <div class="header-inner">
-      <div class="brand">🃏 PPL <span>S8</span></div>
+      <div class="brand"><span class="brand-shimmer">🃏 PPL</span> <span>S8</span></div>
       <nav id="mainNav"></nav>
       <div class="user-chip" onclick="showUserMenu()">
         <span id="headerUser">—</span>
@@ -512,10 +731,14 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
       <div class="section-title">Dashboard</div>
     </div>
     <div id="statBoxes" class="stat-grid"></div>
+    <div id="progressBarWrap"></div>
+    <div id="nextMatchWrap"></div>
     <div id="podiumWrap" class="card" style="margin-bottom:20px;"></div>
     <div class="section-title" style="margin-bottom:12px;">Points Table</div>
     <div class="table-wrap" id="standingsTable"></div>
     <div id="bracketWrap" style="margin-top:24px;"></div>
+    <div id="dashboardMiniStats" style="margin-top:24px;"></div>
+    <div id="sparklineWrap" style="margin-top:8px;"></div>
   </div>
 
   <!-- SCHEDULE -->
@@ -576,7 +799,7 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
     <div class="stats-section-title">🙋 Player Show Count</div>
     <div class="table-wrap" style="margin-bottom:24px;">
       <table><thead><tr>
-        <th>Rank</th><th>Player</th><th>Team</th><th>Shows</th>
+        <th>Rank</th><th>Player</th><th>Team</th><th>Shows</th><th>Show %</th>
       </tr></thead>
       <tbody id="statsShowsTbody"></tbody></table>
     </div>
@@ -584,9 +807,17 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
     <div class="stats-section-title">👥 Most Shows by Team</div>
     <div class="table-wrap" style="margin-bottom:24px;">
       <table><thead><tr>
-        <th>Rank</th><th>Team</th><th>Total Shows</th>
+        <th>Rank</th><th>Team</th><th>Total Shows</th><th>Show %</th>
       </tr></thead>
       <tbody id="statsTeamShowsTbody"></tbody></table>
+    </div>
+    <!-- Biggest win margin -->
+    <div class="stats-section-title">💪 Biggest Win Margin</div>
+    <div class="table-wrap" style="margin-bottom:24px;">
+      <table><thead><tr>
+        <th>Rank</th><th>Winner</th><th>Loser</th><th>Score</th><th>Margin</th><th>Type</th>
+      </tr></thead>
+      <tbody id="statsBigWinTbody"></tbody></table>
     </div>
     <!-- Top scorer per round -->
     <div class="stats-section-title">🎯 Top Scorer Per Round (Any Match)</div>
@@ -927,26 +1158,80 @@ async function startApp() {
   document.getElementById('headerRole').textContent = currentUser.role;
   buildNav();
   await loadAllData();
+  // For viewers: find their team and show it in the header
+  if (currentUser.role === 'viewer') {
+    const myTeam = findViewerTeam(currentUser.username);
+    if (myTeam) {
+      currentUser.teamName = myTeam.name;
+      currentUser.teamColour = myTeam.colour;
+      document.getElementById('headerRole').innerHTML =
+        `<span class="role-badge">viewer</span>
+         <span style="margin-left:4px;font-size:0.72rem;font-weight:700;color:var(--white);">
+           <span class="col-dot" style="background:${myTeam.colour};width:8px;height:8px;"></span>
+           ${myTeam.name}
+         </span>`;
+    }
+  }
   subscribeRealtime();
   showPage('Dashboard');
 }
 
+function findViewerTeam(username) {
+  // Match username to player name (case-insensitive), then find their team
+  const player = allPlayers.find(p => p.name.toLowerCase() === username.toLowerCase());
+  if (!player) return null;
+  return allTeams.find(t => t.player1_id === player.id || t.player2_id === player.id) || null;
+}
+
 function buildNav() {
-  const pages = ['Dashboard','Schedule','Teams','Players','Stats','Rules','Awards'];
+  const pages = ['Dashboard','Stats','Schedule','Teams','Players','Rules','Awards'];
   if (currentUser.role !== 'viewer') pages.push('Audit');
   if (currentUser.role === 'admin') pages.push('Settings');
   const nav = document.getElementById('mainNav');
   nav.innerHTML = pages.map(p =>
     `<button class="nav-btn" onclick="showPage('${p}')">${p}</button>`
   ).join('');
+  // Bottom nav — show first 5 tabs with icons
+  const bnavIcons = { Dashboard:'🏠', Stats:'📊', Schedule:'📅', Teams:'👥', Players:'🎮', Rules:'📖', Awards:'🏆', Audit:'📜', Settings:'⚙️' };
+  const bnavPages = pages.slice(0, 4);
+  bnavPages.push('More');
+  const bnavEl = document.getElementById('bnavInner');
+  if (bnavEl) {
+    bnavEl.innerHTML = pages.slice(0,4).map(p => `
+      <button class="bnav-item" id="bnav-${p}" onclick="showPage('${p}')">
+        <span class="bnav-icon">${bnavIcons[p]||'•'}</span>
+        <span class="bnav-label">${p}</span>
+      </button>`).join('') + `
+      <button class="bnav-item" onclick="showBnavMore()">
+        <span class="bnav-icon">⋯</span>
+        <span class="bnav-label">More</span>
+      </button>`;
+  }
 }
 
 function showPage(name) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(b => b.classList.toggle('active', b.textContent === name));
+  document.querySelectorAll('.bnav-item').forEach(b => {
+    const lbl = b.querySelector('.bnav-label');
+    const dot = b.querySelector('.bnav-dot');
+    const isActive = lbl && lbl.textContent === name;
+    b.classList.toggle('active', isActive);
+    if (dot) dot.remove();
+    if (isActive) { const d = document.createElement('div'); d.className='bnav-dot'; b.appendChild(d); }
+  });
   const page = document.getElementById('page' + name);
   if (page) page.classList.add('active');
   renderPage(name);
+}
+
+function showBnavMore() {
+  const pages = ['Players','Rules','Awards'];
+  if (currentUser.role !== 'viewer') pages.push('Audit');
+  if (currentUser.role === 'admin') pages.push('Settings');
+  openModal('More', pages.map(p =>
+    `<button class="btn btn-ghost btn-full" style="margin-bottom:8px;justify-content:flex-start;" onclick="closeModal();showPage('${p}')">${p}</button>`
+  ).join(''), []);
 }
 
 async function loadAllData() {
@@ -1005,9 +1290,16 @@ function renderPage(name) {
 }
 
 function showUserMenu() {
+  const teamLine = currentUser.teamName
+    ? `<div style="margin-top:4px;font-size:0.8rem;color:var(--grey);">
+         <span class="col-dot" style="background:${currentUser.teamColour}"></span>Team: <strong style="color:var(--white);">${currentUser.teamName}</strong>
+       </div>` : '';
   openModal('Account', `
     <div class="field"><label>Logged in as</label>
-      <div style="padding:10px 0;font-weight:700;">${currentUser.username} <span class="role-badge">${currentUser.role}</span></div>
+      <div style="padding:10px 0;">
+        <div style="font-weight:700;">${currentUser.username} <span class="role-badge">${currentUser.role}</span></div>
+        ${teamLine}
+      </div>
     </div>
     <div class="field"><label>Change Password</label>
       <input id="myNewPw" type="password" placeholder="New password">
@@ -1051,7 +1343,7 @@ function subscribeRealtime() {
             if (page?.id === 'pageDashboard') renderDashboard();
             if (page?.id === 'pageSchedule') renderSchedule();
             if (rec.edited_by && rec.edited_by !== currentUser.username) {
-              toast(`📊 Score updated by ${rec.edited_by}`, 'success');
+              toast('Live score update', 'info', `Updated by ${rec.edited_by}`);
             }
           }
         }
@@ -1102,15 +1394,57 @@ function renderDashboard() {
   const finalDone = finals.filter(f => f.played).length;
 
   document.getElementById('statBoxes').innerHTML = `
-    <div class="stat-box"><div class="stat-num">${allTeams.length}</div><div class="stat-label">Teams</div></div>
-    <div class="stat-box"><div class="stat-num">${played}<span style="font-size:1rem;color:var(--grey)">/${league.length}</span></div><div class="stat-label">League Played</div></div>
-    <div class="stat-box"><div class="stat-num">${semiDone}<span style="font-size:1rem;color:var(--grey)">/${semis.length||2}</span></div><div class="stat-label">Semis Done</div></div>
-    <div class="stat-box">
+    <div class="stat-box"><div class="stat-watermark">👥</div><div class="stat-num">${allTeams.length}</div><div class="stat-label">Teams</div></div>
+    <div class="stat-box"><div class="stat-watermark">🃏</div><div class="stat-num">${played}<span style="font-size:1rem;color:var(--grey)">/${league.length}</span></div><div class="stat-label">League Played</div></div>
+    <div class="stat-box"><div class="stat-watermark">⚔️</div><div class="stat-num">${semiDone}<span style="font-size:1rem;color:var(--grey)">/${semis.length||2}</span></div><div class="stat-label">Semis Done</div></div>
+    <div class="stat-box"><div class="stat-watermark">🏆</div>
       <div class="stat-num" style="font-size:${finalDone?'1.5rem':'1rem'}">${finalDone ? '✅' : semis.length?'⏳':'—'}</div>
       <div class="stat-label">Final</div>
       <div class="stat-sub">${finalDone ? 'Complete' : semis.length ? 'Pending' : 'Not yet'}</div>
     </div>
   `;
+
+  // Progress bar (3)
+  const pct = league.length > 0 ? Math.round((played / league.length) * 100) : 0;
+  const remaining = league.length - played;
+  const progressHTML = league.length > 0 ? `
+    <div class="progress-card">
+      <div class="progress-header">
+        <span class="progress-title">Season Progress</span>
+        <span class="progress-frac">${played} / ${league.length} matches</span>
+      </div>
+      <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+      <div class="progress-sub">${pct}% complete · ${remaining} match${remaining!==1?'es':''} remaining</div>
+    </div>` : '';
+  const progressEl = document.getElementById('progressBarWrap');
+  if (progressEl) { progressEl.innerHTML = progressHTML; setTimeout(() => { const f = document.getElementById('progressFill'); if(f) f.style.width = pct+'%'; }, 80); }
+
+  // Next match card (6)
+  const upcoming = allFixtures.filter(f => !f.played && f.match_type==='league' && allTeams.find(t=>t.id===f.team1_id) && allTeams.find(t=>t.id===f.team2_id));
+  const nextEl = document.getElementById('nextMatchWrap');
+  if (nextEl) {
+    if (upcoming.length) {
+      const nf = upcoming[0];
+      const nt1 = allTeams.find(t=>t.id===nf.team1_id);
+      const nt2 = allTeams.find(t=>t.id===nf.team2_id);
+      const leagueOnly = allFixtures.filter(f=>f.match_type==='league');
+      const mNum = leagueOnly.findIndex(f=>f.id===nf.id)+1;
+      nextEl.innerHTML = `<div class="next-match-card">
+        <div class="next-match-label">⚡ Next Match</div>
+        <div class="next-match-teams">
+          <div class="next-match-vs">
+            <span class="col-dot" style="background:${nt1.colour}"></span><strong>${nt1.name}</strong>
+            <span style="color:var(--grey);font-size:0.78rem;margin:0 4px;">vs</span>
+            <span class="col-dot" style="background:${nt2.colour}"></span><strong>${nt2.name}</strong>
+          </div>
+          <div class="next-match-meta">
+            ${nf.match_date ? `<div class="next-match-date">${formatDate(nf.match_date)}</div>` : ''}
+            <div class="next-match-info">Match ${mNum}${nf.match_time?' · '+nf.match_time:''}</div>
+          </div>
+        </div>
+      </div>`;
+    } else { nextEl.innerHTML = ''; }
+  }
 
   const standings = calcStandings();
   // Podium
@@ -1156,22 +1490,34 @@ function renderDashboard() {
       <th>Rank</th><th>Team</th><th>Players</th>
       <th title="Played">P</th><th title="Won">W</th><th title="Draw">D</th><th title="Lost">L</th>
       <th title="Scored">Scrd</th><th title="Conceded">Conc</th><th title="Net Score Diff">NSD</th><th title="Points">Pts</th>
+      <th title="Last 5 Results">Form</th>
     </tr></thead><tbody>
       ${standings.map((t,i) => {
         const rankClass = i===0?'rank-1':i===1?'rank-2':i===2?'rank-3':'';
         const nsd = t.scored - t.conceded;
         const matchResults = allFixtures.filter(f => f.match_type==='league' && f.played && (f.team1_id===t.id||f.team2_id===t.id));
-        return `<tr class="expandable-row ${rankClass}" onclick="toggleExpand('team-${t.id}')">
+        // Form: last 5 results
+        const last5 = matchResults.slice(-5);
+        const formDots = last5.map(f => {
+          const isT1 = f.team1_id === t.id;
+          const s1 = isT1 ? f.total1 : f.total2;
+          const s2 = isT1 ? f.total2 : f.total1;
+          const res = s1>s2?'W':s1<s2?'L':'D';
+          const col = res==='W'?'#4caf7d':res==='D'?'#4a9eff':'#e05555';
+          return `<span title="${res}" style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${col};margin:0 1px;font-size:0.55rem;line-height:16px;text-align:center;color:#fff;font-weight:800;">${res}</span>`;
+        }).join('');
+        return `<tr class="expandable-row ${rankClass}" style="border-left:3px solid ${t.colour};" onclick="toggleExpand('team-${t.id}')">
           <td>${i+1}</td>
-          <td><span class="col-dot" style="background:${t.colour}"></span>${t.name}</td>
+          <td><span class="col-dot" style="background:${t.colour};box-shadow:0 0 6px ${t.colour}88;"></span>${t.name}${currentUser.teamName===t.name?'<span class="your-team-badge">You</span>':''}</td>
           <td class="text-grey text-sm">${getPlayers(t)}</td>
           <td>${t.P}</td><td>${t.W}</td><td>${t.D}</td><td>${t.L}</td>
           <td>${t.scored}</td><td>${t.conceded}</td>
           <td style="color:${nsd>0?'var(--green)':nsd<0?'var(--red)':'var(--grey)'}">${nsd>0?'+':''}${nsd}</td>
           <td class="fw-bold text-gold">${t.pts}</td>
+          <td>${formDots || '<span class="text-grey text-sm">—</span>'}</td>
         </tr>
         <tr class="expand-detail" id="expand-team-${t.id}">
-          <td colspan="11">
+          <td colspan="12">
             <div class="expand-inner">
               <div style="font-size:0.75rem;color:var(--gold);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Match Results</div>
               ${matchResults.length ? matchResults.map(f => {
@@ -1180,10 +1526,11 @@ function renderDashboard() {
                 const s2 = isT1 ? f.total2 : f.total1;
                 const opp = allTeams.find(x => x.id === (isT1 ? f.team2_id : f.team1_id));
                 const res = s1>s2?'W':s1<s2?'L':'D';
+                const oppName = opp?.name || '?';
                 return `<div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.82rem;">
                   <span class="badge badge-${res.toLowerCase()}">${res}</span>
                   <span>${s1} – ${s2}</span>
-                  <span class="text-grey">vs ${opp?.name||'?'}</span>
+                  <span class="text-grey">vs ${oppName}</span>
                   ${f.match_date?`<span class="text-grey text-sm">${formatDate(f.match_date)}</span>`:''}
                 </div>`;
               }).join('') : '<div class="text-grey text-sm">No results yet</div>'}
@@ -1197,6 +1544,61 @@ function renderDashboard() {
 
   // Bracket
   renderBracketWidget();
+
+  // ── Mini stats below points table ──────────────────
+  const qs = calcQuickStats();
+  const miniEl = document.getElementById('dashboardMiniStats');
+  if (!qs.topScorer && !qs.biggestWin) { miniEl.innerHTML = ''; return; }
+  miniEl.innerHTML = `
+    <div class="section-title" style="margin-bottom:12px;">⚡ Quick Stats</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;">
+      ${qs.topScorer ? `
+      <div class="card card-sm" style="display:flex;align-items:center;gap:14px;">
+        <div style="font-size:2rem;flex-shrink:0;">🎯</div>
+        <div>
+          <div style="font-size:0.72rem;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Top Scorer (Season)</div>
+          <div style="font-weight:800;font-size:1rem;">${qs.topScorer.name}</div>
+          <div style="color:var(--gold);font-weight:700;">${qs.topScorer.score} pts total</div>
+        </div>
+      </div>` : ''}
+      ${qs.biggestWin ? `
+      <div class="card card-sm" style="display:flex;align-items:center;gap:14px;">
+        <div style="font-size:2rem;flex-shrink:0;">💪</div>
+        <div>
+          <div style="font-size:0.72rem;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Biggest Win Margin</div>
+          <div style="font-weight:800;font-size:1rem;">${qs.biggestWin.winnerName}</div>
+          <div style="color:var(--green);font-weight:700;">+${qs.biggestWin.margin} margin</div>
+        </div>
+      </div>` : ''}
+    </div>
+  `;
+
+  // Sparklines (13)
+  const sparkEl = document.getElementById('sparklineWrap');
+  if (sparkEl && standings.length > 0) {
+    const sparkLines = [...standings].map(t => {
+      const results = allFixtures.filter(f=>f.match_type==='league'&&f.played&&(f.team1_id===t.id||f.team2_id===t.id));
+      const scores = results.map(f => f.team1_id===t.id ? f.total1||0 : f.total2||0);
+      if (!scores.length) return '';
+      const max = Math.max(...scores, 1);
+      const pts = scores.map((s,i) => `${Math.round((i/(Math.max(scores.length-1,1)))*78)},${Math.round((1-(s/max))*22)}`).join(' ');
+      const last = scores[scores.length-1];
+      const prev = scores[scores.length-2];
+      const trend = prev===undefined ? '—' : last > prev ? `<span style="color:var(--green)">↑</span>` : last < prev ? `<span style="color:var(--red)">↓</span>` : `<span style="color:var(--grey)">→</span>`;
+      return `<div class="sparkline-row">
+        <span class="col-dot" style="background:${t.colour}"></span>
+        <span class="sparkline-team">${t.name}</span>
+        <svg width="80" height="28" viewBox="0 0 80 28" style="flex-shrink:0;">
+          <polyline points="${pts}" fill="none" stroke="${t.colour}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          ${scores.length ? `<circle cx="${Math.round(((scores.length-1)/Math.max(scores.length-1,1))*78)}" cy="${Math.round((1-(scores[scores.length-1]/max))*22)}" r="3" fill="${t.colour}"/>` : ''}
+        </svg>
+        <span class="sparkline-trend">${trend} ${t.pts} pts</span>
+      </div>`;
+    }).filter(Boolean).join('');
+    sparkEl.innerHTML = sparkLines ? `
+      <div class="section-title" style="margin:20px 0 12px;">📈 Points Trend</div>
+      <div>${sparkLines}</div>` : '';
+  }
 }
 
 function toggleExpand(key) {
@@ -1273,7 +1675,7 @@ function renderSchedule() {
   // Chip bar
   const chipBar = document.getElementById('chipBar');
   chipBar.innerHTML = `<button class="chip ${activeChips.size===0?'active':''}" onclick="clearChips(this)">All</button>` +
-    allTeams.map(t => `<button class="chip ${activeChips.has(t.id)?'active':''}" onclick="toggleChip(${t.id},this)" style="border-color:${activeChips.has(t.id)?t.colour:'rgba(255,255,255,0.15)'}">
+    [...allTeams].sort((a,b) => a.name.localeCompare(b.name)).map(t => `<button class="chip ${activeChips.has(t.id)?'active':''}" onclick="toggleChip(${t.id},this)" style="border-color:${activeChips.has(t.id)?t.colour:'rgba(255,255,255,0.15)'}">
       <span class="col-dot" style="background:${t.colour}"></span>${t.name}
     </button>`).join('');
 
@@ -1283,12 +1685,17 @@ function renderSchedule() {
     fixtures = fixtures.filter(f => activeChips.has(f.team1_id) || activeChips.has(f.team2_id));
   }
 
+  // Build a match number lookup: position within all league fixtures in current sort order
+  const leagueFixtures = allFixtures.filter(f => f.match_type === 'league');
+  const matchNumMap = {};
+  leagueFixtures.forEach((f, i) => { matchNumMap[f.id] = i + 1; });
+
   const container = document.getElementById('matchList');
   if (!fixtures.length) {
     container.innerHTML = '<div class="empty-state"><div class="es-icon">📅</div>No matches yet. Generate the league schedule.</div>';
     return;
   }
-  container.innerHTML = fixtures.map(f => renderMatchCard(f, isAdmin, isAdmin || isScorer)).join('');
+  container.innerHTML = fixtures.map(f => renderMatchCard(f, isAdmin, isAdmin || isScorer, matchNumMap[f.id])).join('');
 
   // Drag-and-drop for admin league matches
   if (isAdmin) {
@@ -1305,11 +1712,12 @@ function renderSchedule() {
   }
 }
 
-function renderMatchCard(f, isAdmin, canScore) {
+function renderMatchCard(f, isAdmin, canScore, matchNum) {
   const t1 = allTeams.find(t => t.id === f.team1_id);
   const t2 = allTeams.find(t => t.id === f.team2_id);
   if (!t1 || !t2) return '';
-  const typeLabel = f.match_type === 'semi' ? 'SF' : f.match_type === 'final' ? 'FINAL' : `R${f.round_num||'?'}`;
+  // Use passed match number for league, or SF/FINAL labels for knockouts
+  const typeLabel = f.match_type === 'semi' ? 'SF' : f.match_type === 'final' ? 'FINAL' : `MATCH ${matchNum||'?'}`;
   const typeCls = f.match_type === 'semi' ? 'sf' : f.match_type === 'final' ? 'final' : '';
   const numRounds = (f.match_type === 'league') ? 3 : 5;
   const rounds = f.rounds_data || [];
@@ -1362,14 +1770,53 @@ function renderMatchCard(f, isAdmin, canScore) {
     ${f.created_at ? `<div class="score-stamp">Saved by ${f.created_by||'?'} @ ${formatDT(f.created_at)}</div>` : ''}
   `;
 
+  // Build round score bars (5) for played matches (viewer mode)
+  let roundBarsHTML = '';
+  if (f.played && !canScore) {
+    roundBarsHTML = rounds.map((rd, r) => {
+      const s1 = rd.s1 || 0, s2 = rd.s2 || 0;
+      const tot = s1 + s2 || 1;
+      const w1 = Math.round((s1/tot)*96), w2 = Math.round((s2/tot)*96);
+      const rWin = s1>s2 ? `<span style="color:var(--gold);font-weight:700;">${t1.name}</span>` : s2>s1 ? `<span style="color:var(--blue);font-weight:700;">${t2.name}</span>` : `<span style="color:var(--grey);">Draw</span>`;
+      return `<div class="round-bar-wrap">
+        <div style="display:flex;justify-content:space-between;font-size:0.65rem;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">
+          <span>Round ${r+1}</span>${rWin}
+        </div>
+        <div class="round-bar-track">
+          <div class="round-bar-t1" style="width:${w1}%"></div>
+          <div class="round-bar-t2" style="width:${w2}%"></div>
+        </div>
+        <div class="round-bar-labels">
+          <span class="bar-l-gold" style="color:var(--gold);font-weight:700;">${s1}</span>
+          <span class="bar-l-blue" style="color:var(--blue);font-weight:700;">${s2}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  // Result ribbon (18)
+  let ribbon = '';
+  if (f.played) {
+    const isT1Win = f.total1 > f.total2, isDraw = f.total1 === f.total2;
+    const ribbonClass = isDraw ? 'draw' : isT1Win ? 'win' : 'loss';
+    const ribbonText = isDraw ? 'Draw' : isT1Win ? 'Win' : 'Loss';
+    ribbon = `<div class="match-ribbon ${ribbonClass}">${ribbonText}</div>`;
+  }
+
+  // Card corner pips (15)
+  const pipLabel = f.match_type === 'league' ? `M${matchNum||'?'}` : f.match_type === 'semi' ? 'SF' : '🏆';
+  const suitChar = ['♠','♥','♦','♣'][(matchNum||1) % 4];
+
   return `
     <div class="match-card" data-id="${f.id}" data-type="${f.match_type}" id="mc-${f.id}">
+      <div class="match-card-pip-tl">${pipLabel} ${suitChar}</div>
+      ${ribbon}
       <div class="match-header" onclick="toggleMatch('${f.id}')">
         ${isAdmin && f.match_type==='league' ? '<div class="drag-handle">⠿</div>' : ''}
         <div class="match-teams">
-          <span class="team-name-sm"><span class="col-dot" style="background:${t1.colour}"></span>${t1.name}</span>
-          <span class="match-vs">vs</span>
-          <span class="team-name-sm"><span class="col-dot" style="background:${t2.colour}"></span>${t2.name}</span>
+          ${[{name:t1.name,colour:t1.colour},{name:t2.name,colour:t2.colour}].sort((a,b)=>a.name.localeCompare(b.name)).map(t=>
+            `<span class="team-name-sm"><span class="col-dot" style="background:${t.colour}"></span>${t.name}</span>`
+          ).join('<span class="match-vs">vs</span>')}
         </div>
         ${f.played ? `<span class="match-score">${f.total1} – ${f.total2}</span>` : ''}
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">
@@ -1383,9 +1830,10 @@ function renderMatchCard(f, isAdmin, canScore) {
           <div style="color:var(--grey);font-size:1.2rem;align-self:center;">–</div>
           <div class="total-box"><div class="t-score" id="tot2-${f.id}">${f.total2||0}</div><div class="t-label">${t2.name}</div></div>
         </div>
-        <div class="rounds-grid" id="rg-${f.id}">${roundsHTML}</div>
+        ${roundBarsHTML ? `<div class="rounds-grid" id="rg-${f.id}" style="display:block;">${roundBarsHTML}</div>` : `<div class="rounds-grid" id="rg-${f.id}">${roundsHTML}</div>`}
         ${saveRow}
       </div>
+      <div class="match-card-pip-br">${pipLabel} ${suitChar}</div>
     </div>
   `;
 }
@@ -1475,7 +1923,10 @@ async function saveScore(fid) {
     Object.assign(f, updateData);
     // Audit
     await logAudit(before ? 'edit' : 'score', f, before, { total1: t1, total2: t2, rounds: roundsData });
-    toast('Score saved ✓','success');
+    const ta = allTeams.find(t=>t.id===f.team1_id)?.name||'?';
+    const tb = allTeams.find(t=>t.id===f.team2_id)?.name||'?';
+    toast('Score saved!', 'success', `${ta} ${t1} – ${tb} ${t2}`);
+    if (!before) launchConfetti();
     await loadFixtures();
     renderSchedule();
     if (document.getElementById('pageDashboard').classList.contains('active')) renderDashboard();
@@ -1500,8 +1951,13 @@ async function reorderFixtures(srcCard, dstCard) {
   if (srcIdx < 0 || dstIdx < 0) return;
   const [moved] = allFixtures.splice(srcIdx, 1);
   allFixtures.splice(dstIdx, 0, moved);
-  // Update sort orders
-  const updates = allFixtures.filter(f => f.match_type==='league').map((f,i) => sbUpdate('ppl_fixtures', {sort_order:i}, `id=eq.${f.id}`));
+  // Update sort_order AND round_num so match numbers stay correct
+  const leagueOnly = allFixtures.filter(f => f.match_type === 'league');
+  const updates = leagueOnly.map((f, i) => {
+    f.sort_order = i;
+    f.round_num = i + 1;
+    return sbUpdate('ppl_fixtures', { sort_order: i, round_num: i + 1 }, `id=eq.${f.id}`);
+  });
   try { await Promise.all(updates); renderSchedule(); } catch(e) {}
 }
 
@@ -1526,7 +1982,7 @@ function clearChips(btn) {
 }
 
 function openAddMatch() {
-  const teamOpts = allTeams.map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+  const teamOpts = [...allTeams].sort((a,b) => a.name.localeCompare(b.name)).map(t => `<option value="${t.id}">${t.name}</option>`).join('');
   openModal('Add Match', `
     <div class="field"><label>Team 1</label><select id="am1">${teamOpts}</select></div>
     <div class="field"><label>Team 2</label><select id="am2">${teamOpts}</select></div>
@@ -1668,7 +2124,7 @@ function renderTeams() {
     grid.innerHTML = '<div class="empty-state"><div class="es-icon">👥</div>No teams yet</div>';
     return;
   }
-  grid.innerHTML = allTeams.map(t => {
+  grid.innerHTML = [...allTeams].sort((a,b) => a.name.localeCompare(b.name)).map(t => {
     const st = standings.find(s => s.id === t.id) || { pts:0, W:0, D:0, L:0, scored:0, conceded:0, P:0 };
     const rank = standings.findIndex(s => s.id === t.id) + 1;
     const p1 = allPlayers.find(p => p.id === t.player1_id);
@@ -1786,7 +2242,7 @@ function renderPlayers() {
     tbody.innerHTML = `<tr><td colspan="4" class="empty-state"><div class="es-icon">🎮</div>No players yet</td></tr>`;
     return;
   }
-  tbody.innerHTML = allPlayers.map((p,i) => {
+  tbody.innerHTML = [...allPlayers].sort((a,b) => a.name.localeCompare(b.name)).map((p,i) => {
     const team = allTeams.find(t => t.player1_id === p.id || t.player2_id === p.id);
     return `<tr>
       <td class="text-grey">${i+1}</td>
@@ -1931,11 +2387,23 @@ async function deleteAward(id) {
 // ═══════════════════════════════════════════════════════
 //  STATS
 // ═══════════════════════════════════════════════════════
+
+// Helper: sort two team names alphabetically for consistent display
+function matchLabel(t1name, t2name) {
+  const names = [t1name, t2name].sort((a,b) => a.localeCompare(b));
+  return `${names[0]} vs ${names[1]}`;
+}
+
 function renderStats() {
   const playedFixtures = allFixtures.filter(f => f.played);
 
-  // ── 1. PLAYER SHOW COUNTS ──────────────────────────
-  const showMap = {}; // playerId → count
+  // Total possible shows = total rounds played across all matches
+  const totalRoundsPlayed = playedFixtures.reduce((sum, f) => {
+    return sum + (f.rounds_data || []).length;
+  }, 0);
+
+  // ── 1. PLAYER SHOW COUNTS + SHOW % ────────────────
+  const showMap = {};
   playedFixtures.forEach(f => {
     (f.rounds_data || []).forEach(rd => {
       const sid = rd.show_player_id;
@@ -1944,11 +2412,13 @@ function renderStats() {
       }
     });
   });
+  // Total shows per player = how many rounds they appeared in
   const showRanked = Object.entries(showMap)
     .map(([pid, count]) => {
       const player = allPlayers.find(p => p.id == pid);
       const team = allTeams.find(t => t.player1_id == pid || t.player2_id == pid);
-      return { pid, name: player?.name || '?', team: team?.name || '—', colour: team?.colour || '#888', count };
+      const pct = totalRoundsPlayed > 0 ? Math.round((count / totalRoundsPlayed) * 100) : 0;
+      return { pid, name: player?.name || '?', team: team?.name || '—', colour: team?.colour || '#888', count, pct };
     })
     .sort((a, b) => b.count - a.count);
 
@@ -1959,22 +2429,34 @@ function renderStats() {
       <td><strong>${r.name}</strong></td>
       <td><span class="col-dot" style="background:${r.colour}"></span>${r.team}</td>
       <td><strong>${r.count}</strong></td>
+      <td><span style="color:${r.pct>=50?'var(--green)':'var(--grey)'}">${r.pct}%</span></td>
     </tr>`).join('')
-    : `<tr><td colspan="4" class="empty-state">No show data yet</td></tr>`;
+    : `<tr><td colspan="5" class="empty-state">No show data yet</td></tr>`;
 
-  // ── 2. MOST SHOWS BY TEAM ──────────────────────────
+  // ── 2. MOST SHOWS BY TEAM + SHOW % ────────────────
   const teamShowMap = {};
   showRanked.forEach(r => {
     teamShowMap[r.team] = (teamShowMap[r.team] || 0) + r.count;
   });
-  // Also add teams with 0 shows
-  allTeams.forEach(t => {
-    if (!(t.name in teamShowMap)) teamShowMap[t.name] = 0;
+  allTeams.forEach(t => { if (!(t.name in teamShowMap)) teamShowMap[t.name] = 0; });
+
+  // Max possible shows per team = 2 players × totalRoundsPlayed
+  // but more accurately: each round has 1 show per match side, so per team = rounds they played
+  const teamRoundsMap = {};
+  playedFixtures.forEach(f => {
+    const numRounds = (f.rounds_data || []).length;
+    const t1 = allTeams.find(t => t.id === f.team1_id);
+    const t2 = allTeams.find(t => t.id === f.team2_id);
+    if (t1) teamRoundsMap[t1.name] = (teamRoundsMap[t1.name] || 0) + numRounds;
+    if (t2) teamRoundsMap[t2.name] = (teamRoundsMap[t2.name] || 0) + numRounds;
   });
+
   const teamShowRanked = Object.entries(teamShowMap)
     .map(([name, count]) => {
       const team = allTeams.find(t => t.name === name);
-      return { name, colour: team?.colour || '#888', count };
+      const possible = teamRoundsMap[name] || 0;
+      const pct = possible > 0 ? Math.round((count / possible) * 100) : 0;
+      return { name, colour: team?.colour || '#888', count, possible, pct };
     })
     .sort((a, b) => b.count - a.count);
 
@@ -1984,35 +2466,58 @@ function renderStats() {
       <td>${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
       <td><span class="col-dot" style="background:${r.colour}"></span><strong>${r.name}</strong></td>
       <td><strong>${r.count}</strong></td>
+      <td><span style="color:${r.pct>=50?'var(--green)':'var(--grey)'}">${r.pct}%</span></td>
     </tr>`).join('')
-    : `<tr><td colspan="3" class="empty-state">No data yet</td></tr>`;
+    : `<tr><td colspan="4" class="empty-state">No data yet</td></tr>`;
 
-  // ── 3. TOP SCORER PER ROUND (across all played matches) ──
-  // Each round has s1 (team1 score) and s2 (team2 score) and a show_player_id
-  // "Top scorer per round" = the player who showed in a round with the highest score on their team's side
+  // ── 3. BIGGEST WIN MARGIN ──────────────────────────
+  const winMargins = playedFixtures
+    .filter(f => f.total1 !== f.total2)
+    .map(f => {
+      const t1 = allTeams.find(t => t.id === f.team1_id);
+      const t2 = allTeams.find(t => t.id === f.team2_id);
+      const margin = Math.abs((f.total1 || 0) - (f.total2 || 0));
+      const winnerTeam = f.total1 > f.total2 ? t1 : t2;
+      const loserTeam  = f.total1 > f.total2 ? t2 : t1;
+      const winScore   = f.total1 > f.total2 ? f.total1 : f.total2;
+      const loseScore  = f.total1 > f.total2 ? f.total2 : f.total1;
+      const typeLabel  = f.match_type === 'semi' ? 'SF' : f.match_type === 'final' ? 'Final' : 'League';
+      return { winnerName: winnerTeam?.name||'?', winnerColour: winnerTeam?.colour||'#888',
+               loserName: loserTeam?.name||'?', loserColour: loserTeam?.colour||'#888',
+               winScore, loseScore, margin, typeLabel };
+    })
+    .sort((a, b) => b.margin - a.margin);
+
+  const bigWinTbody = document.getElementById('statsBigWinTbody');
+  bigWinTbody.innerHTML = winMargins.length ? winMargins.map((r, i) => `
+    <tr class="${i===0?'stats-rank-1':i===1?'stats-rank-2':i===2?'stats-rank-3':''}">
+      <td>${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
+      <td><span class="col-dot" style="background:${r.winnerColour}"></span><strong>${r.winnerName}</strong></td>
+      <td><span class="col-dot" style="background:${r.loserColour}"></span>${r.loserName}</td>
+      <td class="text-grey">${r.winScore} – ${r.loseScore}</td>
+      <td><strong style="color:var(--green)">+${r.margin}</strong></td>
+      <td><span class="badge ${r.typeLabel==='Final'?'badge-ko':r.typeLabel==='SF'?'badge-d':'badge-w'}">${r.typeLabel}</span></td>
+    </tr>`).join('')
+    : `<tr><td colspan="6" class="empty-state">No decisive matches yet</td></tr>`;
+
+  // ── 4. TOP SCORER PER ROUND ────────────────────────
   const roundScores = [];
   playedFixtures.forEach(f => {
     const t1 = allTeams.find(t => t.id === f.team1_id);
     const t2 = allTeams.find(t => t.id === f.team2_id);
     if (!t1 || !t2) return;
+    const [nameA, nameB] = [t1.name, t2.name].sort((a,b) => a.localeCompare(b));
+    const label = `${nameA} vs ${nameB}`;
     (f.rounds_data || []).forEach((rd, rIdx) => {
       const sid = rd.show_player_id;
       if (!sid || sid === 'noshow') return;
-      // Determine which team's player showed and their score
       const showingPlayer = allPlayers.find(p => p.id == sid);
       if (!showingPlayer) return;
       const onTeam1 = (t1.player1_id == sid || t1.player2_id == sid);
       const score = onTeam1 ? (rd.s1 || 0) : (rd.s2 || 0);
       const team = onTeam1 ? t1 : t2;
-      roundScores.push({
-        playerName: showingPlayer.name,
-        teamName: team.name,
-        teamColour: team.colour,
-        matchLabel: `${t1.name} vs ${t2.name}`,
-        matchType: f.match_type,
-        roundNum: rIdx + 1,
-        score
-      });
+      roundScores.push({ playerName: showingPlayer.name, teamName: team.name, teamColour: team.colour,
+        matchLabel: label, roundNum: rIdx + 1, score });
     });
   });
   roundScores.sort((a, b) => b.score - a.score);
@@ -2028,21 +2533,16 @@ function renderStats() {
     </tr>`).join('')
     : `<tr><td colspan="6" class="empty-state">No scored rounds yet</td></tr>`;
 
-  // ── 4. TOTAL SCORE PER MATCH (ranked) ──────────────
+  // ── 5. HIGHEST TOTAL SCORE PER MATCH ──────────────
   const matchScores = playedFixtures.map(f => {
     const t1 = allTeams.find(t => t.id === f.team1_id);
     const t2 = allTeams.find(t => t.id === f.team2_id);
+    const [nameA, nameB] = [t1?.name||'?', t2?.name||'?'].sort((a,b) => a.localeCompare(b));
     const total = (f.total1 || 0) + (f.total2 || 0);
     const typeLabel = f.match_type === 'semi' ? 'SF' : f.match_type === 'final' ? 'Final' : 'League';
-    return {
-      matchLabel: `${t1?.name||'?'} vs ${t2?.name||'?'}`,
-      score1: f.total1 || 0,
-      score2: f.total2 || 0,
-      total,
-      typeLabel,
-      colour1: t1?.colour || '#888',
-      colour2: t2?.colour || '#888'
-    };
+    // Keep original score order for display even if names are sorted
+    return { matchLabel: `${nameA} vs ${nameB}`, score1: f.total1||0, score2: f.total2||0,
+             t1name: t1?.name||'?', t2name: t2?.name||'?', total, typeLabel };
   }).sort((a, b) => b.total - a.total);
 
   const matchScoreTbody = document.getElementById('statsMatchScoreTbody');
@@ -2051,10 +2551,46 @@ function renderStats() {
       <td>${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
       <td><strong>${r.matchLabel}</strong></td>
       <td><span class="badge ${r.typeLabel==='Final'?'badge-ko':r.typeLabel==='SF'?'badge-d':'badge-w'}">${r.typeLabel}</span></td>
-      <td class="text-grey">${r.score1} – ${r.score2}</td>
+      <td class="text-grey">${r.t1name}: ${r.score1} · ${r.t2name}: ${r.score2}</td>
       <td><strong>${r.total}</strong></td>
     </tr>`).join('')
     : `<tr><td colspan="5" class="empty-state">No played matches yet</td></tr>`;
+}
+
+// Helper used by dashboard mini stats
+function calcQuickStats() {
+  const playedFixtures = allFixtures.filter(f => f.played);
+
+  // Top scorer (player with most total score across showed rounds)
+  const playerScoreMap = {};
+  playedFixtures.forEach(f => {
+    const t1 = allTeams.find(t => t.id === f.team1_id);
+    const t2 = allTeams.find(t => t.id === f.team2_id);
+    (f.rounds_data || []).forEach(rd => {
+      const sid = rd.show_player_id;
+      if (!sid || sid === 'noshow') return;
+      const onTeam1 = t1 && (t1.player1_id == sid || t1.player2_id == sid);
+      const score = onTeam1 ? (rd.s1 || 0) : (rd.s2 || 0);
+      playerScoreMap[sid] = (playerScoreMap[sid] || 0) + score;
+    });
+  });
+  const topScorer = Object.entries(playerScoreMap)
+    .map(([pid, score]) => ({ name: allPlayers.find(p => p.id == pid)?.name || '?', score }))
+    .sort((a, b) => b.score - a.score)[0];
+
+  // Biggest win margin
+  const biggestWin = playedFixtures
+    .filter(f => f.total1 !== f.total2)
+    .map(f => {
+      const t1 = allTeams.find(t => t.id === f.team1_id);
+      const t2 = allTeams.find(t => t.id === f.team2_id);
+      const margin = Math.abs((f.total1||0) - (f.total2||0));
+      const winner = f.total1 > f.total2 ? t1 : t2;
+      return { winnerName: winner?.name || '?', margin };
+    })
+    .sort((a, b) => b.margin - a.margin)[0];
+
+  return { topScorer, biggestWin };
 }
 
 // ═══════════════════════════════════════════════════════
@@ -2289,16 +2825,62 @@ function resolveConfirm(val) {
 }
 
 // ═══════════════════════════════════════════════════════
-//  TOAST
+//  TOAST (17 — improved)
 // ═══════════════════════════════════════════════════════
-function toast(msg, type = 'success') {
+function toast(msg, type = 'success', sub = '') {
   const container = document.getElementById('toast-container');
   const el = document.createElement('div');
   el.className = `toast ${type}`;
-  el.innerHTML = `<span class="toast-icon">${type==='error'?'❌':'✅'}</span><span>${msg}</span>`;
+  const icons = { success: '✅', error: '❌', info: '📊' };
+  const icon = icons[type] || '✅';
+  el.innerHTML = `
+    <div class="toast-icon-wrap">${icon}</div>
+    <div class="toast-body">
+      <div class="toast-title">${msg}</div>
+      ${sub ? `<div class="toast-sub">${sub}</div>` : ''}
+    </div>`;
   container.appendChild(el);
-  setTimeout(() => { el.style.opacity='0'; el.style.transform='translateX(40px)'; el.style.transition='all 0.3s'; setTimeout(()=>el.remove(),300); }, 3000);
+  setTimeout(() => { el.style.opacity='0'; el.style.transform='translateX(50px)'; el.style.transition='all 0.3s'; setTimeout(()=>el.remove(),300); }, 3500);
 }
+
+// ═══════════════════════════════════════════════════════
+//  CONFETTI (21)
+// ═══════════════════════════════════════════════════════
+function launchConfetti() {
+  const colours = ['#f0b429','#ffd166','#4caf7d','#4a9eff','#e05555','#ffffff','#c8922a'];
+  for (let i = 0; i < 60; i++) {
+    const p = document.createElement('div');
+    const size = Math.random() * 9 + 4;
+    const duration = 0.7 + Math.random() * 1.2;
+    const delay = Math.random() * 0.5;
+    p.className = 'confetti-piece';
+    p.style.cssText = `
+      width:${size}px; height:${size}px;
+      background:${colours[Math.floor(Math.random()*colours.length)]};
+      left:${Math.random()*100}vw; top:0;
+      border-radius:${Math.random()>0.5?'50%':'2px'};
+      animation-duration:${duration}s;
+      animation-delay:${delay}s;
+    `;
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), (duration + delay) * 1000 + 100);
+  }
+}
+
+// ═══════════════════════════════════════════════════════
+//  BUTTON RIPPLE (12) — via event delegation
+// ═══════════════════════════════════════════════════════
+document.addEventListener('click', e => {
+  const btn = e.target.closest('.btn');
+  if (!btn || btn.disabled) return;
+  const r = document.createElement('span');
+  const rect = btn.getBoundingClientRect();
+  const size = Math.max(rect.width, rect.height);
+  r.className = 'ripple-effect';
+  r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+  btn.appendChild(r);
+  setTimeout(() => r.remove(), 500);
+});
 
 // ═══════════════════════════════════════════════════════
 //  DATE HELPERS
