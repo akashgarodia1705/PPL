@@ -698,7 +698,7 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
 //  GLOBALS & CONFIG
 // ═══════════════════════════════════════════════════════
 const SB_URL = 'https://fqivztgxxtoybarfpnsn.supabase.co';
-const SB_KEY = 'sb_publishable_2CvdIpIJ2oQcnBFoeACvqA_os2yw9ht';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZxaXZ6dGd4eHRveWJhcmZwbnNuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzUzOTc2ODgsImV4cCI6MjA5MDk3MzY4OH0.ryCag6i170Sngi--TgUupzOKLAzu8ZL_SWTziRui06g';
 let currentUser = null; // {username, role, id}
 let currentSeason = 1;
 let allTeams = [], allPlayers = [], allFixtures = [], allUsers = [], allAwards = [], allSeasons = [];
@@ -871,6 +871,11 @@ async function doLogin() {
   const newPw = document.getElementById('loginNewPw').value;
   if (!username || !pw) { showLoginError('Enter username and password'); return; }
 
+  // Show loading state
+  const btn = document.getElementById('loginBtn');
+  btn.textContent = 'Signing in…'; btn.disabled = true;
+  document.getElementById('loginError').style.display = 'none';
+
   try {
     let users = await sbQuery('ppl_users', `username=eq.${encodeURIComponent(username)}&select=*`);
     if (!users || users.length === 0) { showLoginError('User not found'); return; }
@@ -881,7 +886,6 @@ async function doLogin() {
       document.getElementById('newPwField').style.display = 'block';
       if (!newPw) { showLoginError('Please set a new password above'); return; }
       if (pw !== newPw) { showLoginError('Passwords do not match'); return; }
-      // Save new password
       await sbUpdate('ppl_users', { password: pw, first_login: false }, `id=eq.${user.id}`);
       user.password = pw; user.first_login = false;
     }
@@ -893,7 +897,18 @@ async function doLogin() {
     document.getElementById('loginScreen').style.display = 'none';
     await startApp();
   } catch(e) {
-    showLoginError('Connection error: ' + e.message);
+    const msg = e.message || '';
+    if (msg.includes('401') || msg.includes('403') || msg.includes('Invalid API key') || msg.includes('JWT')) {
+      showLoginError('❌ API key error. Go to Supabase → Settings → API and copy the "anon public" key (starts with eyJ). Then go to Settings in the app and paste it.');
+    } else if (msg.includes('Failed to fetch') || msg.includes('NetworkError') || msg.includes('net::')) {
+      showLoginError('❌ Cannot reach database. Check your internet connection.');
+    } else if (msg.includes('ppl_users')) {
+      showLoginError('❌ Database tables not found. Please run the SQL setup script in Supabase.');
+    } else {
+      showLoginError('❌ Error: ' + msg);
+    }
+  } finally {
+    btn.textContent = 'Sign In'; btn.disabled = false;
   }
 }
 function showLoginError(msg) {
