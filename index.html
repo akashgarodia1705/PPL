@@ -219,15 +219,19 @@ tr.rank-3 td:first-child { border-left: 3px solid #a0703a; }
 }
 .match-header {
   display: flex; align-items: center; justify-content: space-between;
-  padding: 12px 16px; cursor: pointer; gap: 8px;
+  padding: 12px 16px; cursor: pointer; gap: 8px; flex-wrap: wrap;
 }
-.match-teams { display: flex; align-items: center; gap: 10px; flex: 1; min-width: 0; }
-.team-name-sm { font-weight: 700; font-size: 0.88rem; }
+.match-teams { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
+.team-name-sm { font-weight: 700; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; }
 .match-vs { color: var(--grey); font-size: 0.75rem; flex-shrink: 0; }
 .match-score { font-weight: 900; font-size: 1.05rem; color: var(--gold); white-space: nowrap; }
 .match-meta { font-size: 0.72rem; color: var(--grey); display: flex; gap: 10px; flex-wrap: wrap; }
-.match-body { display: none; padding: 0 16px 16px; border-top: 1px solid var(--border); }
-.match-body.open { display: block; }
+.match-header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
+@media (max-width: 600px) {
+  .match-header { gap: 6px; padding: 10px 12px; }
+  .team-name-sm { max-width: 80px; font-size: 0.82rem; }
+  .match-score { font-size: 0.95rem; }
+}
 .rounds-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 6px 8px; align-items: center; margin-top: 12px; }
 .round-label { grid-column: 1/-1; font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-top: 8px; }
 .round-input {
@@ -1976,13 +1980,7 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
     </div>`;
   }
 
-  // Lock/unlock button (B)
-  let lockHTML = '';
-  if (isAdmin && f.played) {
-    lockHTML = `<button class="btn btn-sm ${isLocked?'btn-outline':'btn-ghost'}" onclick="toggleLock('${f.id}')" style="margin-left:4px;">
-      ${isLocked ? '🔒 Locked' : '🔓 Lock'}
-    </button>`;
-  }
+  // Lock button moved to match-header (always visible)
 
   const saveRow = canEdit && !isWalkover ? `
     <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
@@ -2028,21 +2026,25 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
     <div class="match-card" data-id="${f.id}" data-type="${f.match_type}" id="mc-${f.id}">
       ${ribbon}
       <div class="match-header" onclick="toggleMatch('${f.id}')">
-        ${isAdmin && f.match_type==='league' ? '<div class="drag-handle">⠿</div>' : ''}
-        <div class="match-teams">
-          ${[{name:t1.name,colour:t1.colour},{name:t2.name,colour:t2.colour}].sort((a,b)=>a.name.localeCompare(b.name)).map(t=>
-            `<span class="team-name-sm"><span class="col-dot" style="background:${t.colour}"></span>${t.name}</span>`
-          ).join('<span class="match-vs">vs</span>')}
-        </div>
-        <div style="display:flex;align-items:center;gap:6px;">
-          ${f.played ? `<span class="match-score">${f.total1} – ${f.total2}</span>` : ''}
-          ${isWalkover ? `<span class="walkover-label">W/O</span>` : ''}
-          ${isLocked ? `<span class="lock-badge">🔒</span>` : ''}
-        </div>
-        <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">
-          <span class="match-type-badge ${typeCls}">${typeLabel}</span>
-          <span class="match-status-pill ${statusClass}">${matchStatus}</span>
-          ${f.match_date ? `<span class="text-grey text-sm">${formatDate(f.match_date)}${f.match_time ? ' ' + f.match_time : ''}</span>` : ''}
+        ${isAdmin && f.match_type==='league' ? '<div class="drag-handle" style="flex-shrink:0;">⠿</div>' : ''}
+        <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;">
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;">
+            <div class="match-teams" style="flex:1;min-width:0;">
+              ${[{name:t1.name,colour:t1.colour},{name:t2.name,colour:t2.colour}].sort((a,b)=>a.name.localeCompare(b.name)).map(t=>
+                `<span class="team-name-sm"><span class="col-dot" style="background:${t.colour}"></span>${t.name}</span>`
+              ).join('<span class="match-vs">vs</span>')}
+            </div>
+            <div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">
+              ${f.played ? `<span class="match-score">${f.total1} – ${f.total2}</span>` : ''}
+              ${isWalkover ? `<span class="walkover-label">W/O</span>` : ''}
+              ${isAdmin && f.played ? `<button class="btn btn-sm ${isLocked?'btn-outline':'btn-ghost'}" onclick="event.stopPropagation();toggleLock('${f.id}')" style="padding:3px 7px;font-size:0.7rem;">${isLocked ? '🔒' : '🔓'}</button>` : ''}
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <span class="match-type-badge ${typeCls}">${typeLabel}</span>
+            <span class="match-status-pill ${statusClass}">${matchStatus}</span>
+            ${f.match_date ? `<span class="text-grey text-sm">${formatDate(f.match_date)}${f.match_time ? ' · ' + f.match_time : ''}</span>` : ''}
+          </div>
         </div>
       </div>
       <div class="match-body" id="mb-${f.id}">
@@ -2055,7 +2057,6 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
         ${dateTimeHTML}
         ${walkoverHTML}
         ${saveRow}
-        ${lockHTML}
       </div>
     </div>
   `;
@@ -2529,7 +2530,7 @@ function renderTeams() {
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
           ${rank ? `<span class="badge badge-ko">#${rank}</span>` : ''}
           <span class="text-gold fw-bold">${st.pts} pts</span>
-          <span class="text-grey text-sm">${st.W}W ${st.D}D ${st.L}L</span>
+          <span class="text-grey text-sm">${st.W}W ${st.L}L</span>
           <span class="text-sm" style="color:${nsd>=0?'var(--green)':'var(--red)'}">NSD ${nsd>=0?'+':''}${nsd}</span>
         </div>
         ${isAdmin ? `<div class="team-card-actions">
