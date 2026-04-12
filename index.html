@@ -689,10 +689,8 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
   /* BOTTOM NAV (1) — hides top nav on mobile */
   #appHeader nav { display: none; }
   #bottomNav { display: flex !important; flex-direction: column; }
-  /* Mobile scroll fix — pin nav at bottom, content scrolls */
-  #app { display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
-  #appHeader { flex-shrink: 0; }
-  #appContent { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+  /* Body padding so content never hides under fixed bottom nav */
+  body { padding-bottom: env(safe-area-inset-bottom); }
 }
 /* ── BOTTOM NAV (1) ── */
 #bottomNav {
