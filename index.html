@@ -222,14 +222,14 @@ tr.rank-3 td:first-child { border-left: 3px solid #a0703a; }
   padding: 12px 16px; cursor: pointer; gap: 8px; flex-wrap: wrap;
 }
 .match-teams { display: flex; align-items: center; gap: 8px; flex: 1; min-width: 0; }
-.team-name-sm { font-weight: 700; font-size: 0.88rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100px; }
+.team-name-sm { font-weight: 700; font-size: 0.88rem; color: #ffffff; }
 .match-vs { color: var(--grey); font-size: 0.75rem; flex-shrink: 0; }
 .match-score { font-weight: 900; font-size: 1.05rem; color: var(--gold); white-space: nowrap; }
 .match-meta { font-size: 0.72rem; color: var(--grey); display: flex; gap: 10px; flex-wrap: wrap; }
 .match-header-right { display: flex; flex-direction: column; align-items: flex-end; gap: 3px; flex-shrink: 0; }
 @media (max-width: 600px) {
   .match-header { gap: 6px; padding: 10px 12px; }
-  .team-name-sm { max-width: 80px; font-size: 0.82rem; }
+  .team-name-sm { font-size: 0.82rem; }
   .match-score { font-size: 0.95rem; }
 }
 .rounds-grid { display: grid; grid-template-columns: 1fr auto 1fr; gap: 6px 8px; align-items: center; margin-top: 12px; }
@@ -1595,7 +1595,7 @@ async function renderDashboard() {
           </div>
           <div class="next-match-meta">
             ${nf.match_date ? `<div class="next-match-date">${formatDate(nf.match_date)}</div>` : ''}
-            <div class="next-match-info">Match ${mNum}${nf.match_time?' · '+nf.match_time:''}</div>
+            <div class="next-match-info">Match ${mNum}${nf.match_time?' · '+formatMatchTime(nf.match_time):''}</div>
           </div>
         </div>
       </div>`;
@@ -2102,7 +2102,7 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             <span class="match-type-badge ${typeCls}">${typeLabel}</span>
             <span class="match-status-pill ${statusClass}">${matchStatus}</span>
-            ${f.match_date ? `<span class="text-grey text-sm">${formatDate(f.match_date)}${f.match_time ? ' · ' + f.match_time : ''}</span>` : ''}
+            ${f.match_date ? `<span class="text-grey text-sm">${formatDate(f.match_date)}${f.match_time ? ' · ' + formatMatchTime(f.match_time) : ''}</span>` : ''}
           </div>
         </div>
       </div>
@@ -3405,7 +3405,19 @@ function formatDate(d) {
 }
 function formatDT(s) {
   if (!s) return '';
-  return new Date(s).toLocaleString('en-IN', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit' });
+  return new Date(s).toLocaleString('en-IN', { day:'numeric', month:'short', hour:'2-digit', minute:'2-digit', hour12: true });
+}
+function formatMatchTime(t) {
+  if (!t) return '';
+  // Already has AM/PM (e.g. "08:30 AM") — just return as-is
+  if (/AM|PM/i.test(t)) return t.replace(/\s*(AM|PM)/i, ' $1').toUpperCase();
+  // Legacy 24hr format (e.g. "20:30") — convert to 12hr
+  const [hStr, mStr] = t.split(':');
+  let h = parseInt(hStr), m = mStr || '00';
+  const ampm = h >= 12 ? 'PM' : 'AM';
+  if (h === 0) h = 12;
+  else if (h > 12) h -= 12;
+  return `${h}:${m} ${ampm}`;
 }
 
 // ═══════════════════════════════════════════════════════
