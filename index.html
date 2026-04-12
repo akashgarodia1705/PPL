@@ -130,6 +130,11 @@ nav::-webkit-scrollbar { height: 0; }
   border-radius: 4px; padding: 1px 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
 }
 
+/* ── APP SHELL (mobile flex-column fix) ── */
+#app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
+#appHeader { flex-shrink: 0; }
+#appContent { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+
 /* ── PAGES ── */
 .page { display: none; max-width: 1200px; margin: 0 auto; padding: 24px 16px 80px; }
 .page.active { display: block; }
@@ -601,6 +606,62 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
 .page.active { display: block; animation: pageFade 0.18s ease; }
 @keyframes pageFade { from{opacity:0;transform:translateY(5px);} to{opacity:1;transform:none;} }
 
+/* ── ROUND SAVE PROGRESS BADGE ── */
+.round-progress-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 3px 8px; border-radius: 20px; font-size: 0.68rem; font-weight: 800;
+  letter-spacing: 0.5px; text-transform: uppercase;
+}
+.rpb-incomplete { background: rgba(240,180,41,0.15); color: var(--gold); border: 1px solid rgba(240,180,41,0.3); }
+.rpb-complete   { background: rgba(76,175,125,0.15); color: var(--green); border: 1px solid rgba(76,175,125,0.3); }
+.rpb-none       { background: rgba(255,255,255,0.05); color: var(--grey); border: 1px solid rgba(255,255,255,0.1); }
+
+/* ── ROUND INDIVIDUAL SAVE ── */
+.round-save-btn {
+  grid-column: 1/-1; margin-top: 6px;
+  display: flex; align-items: center; justify-content: space-between; gap: 8px;
+}
+.round-saved-stamp { font-size: 0.68rem; color: var(--green); }
+
+/* ── WALKOVER ── */
+.walkover-label { 
+  display: inline-block; background: rgba(224,85,85,0.15); color: var(--red);
+  border: 1px solid rgba(224,85,85,0.3); border-radius: 20px;
+  padding: 2px 8px; font-size: 0.68rem; font-weight: 800; letter-spacing: 0.5px;
+}
+
+/* ── MATCH STATUS PILL (A) ── */
+.match-status-pill {
+  display: inline-block; padding: 2px 8px; border-radius: 20px;
+  font-size: 0.65rem; font-weight: 800; letter-spacing: 0.5px; text-transform: uppercase;
+}
+.msp-pending    { background: rgba(255,255,255,0.05); color: var(--grey); }
+.msp-inprogress { background: rgba(240,180,41,0.15); color: var(--gold); }
+.msp-complete   { background: rgba(76,175,125,0.15); color: var(--green); }
+
+/* ── LOCK BADGE (B) ── */
+.lock-badge {
+  display: inline-flex; align-items: center; gap: 4px;
+  padding: 2px 8px; border-radius: 20px; font-size: 0.65rem; font-weight: 800;
+  background: rgba(74,158,255,0.12); color: var(--blue); border: 1px solid rgba(74,158,255,0.25);
+}
+
+/* ── TIME PICKER ── */
+.time-picker { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; }
+.time-picker select {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 6px; padding: 6px 8px; color: var(--white); font-size: 0.85rem;
+  font-family: inherit;
+}
+.time-picker select:focus { outline: none; border-color: var(--gold); }
+.ampm-toggle { display: flex; border-radius: 6px; overflow: hidden; border: 1px solid rgba(255,255,255,0.12); }
+.ampm-btn {
+  padding: 6px 10px; font-size: 0.78rem; font-weight: 800; cursor: pointer;
+  background: rgba(255,255,255,0.04); color: var(--grey); border: none; font-family: inherit;
+}
+.ampm-btn.active { background: var(--gold); color: var(--navy); }
+
+
 /* ── ROUND SCORE BARS (5) ── */
 .round-bar-wrap { grid-column: 1/-1; margin-top: 2px; }
 .round-bar-track { height: 5px; background: rgba(255,255,255,0.07); border-radius: 3px; display: flex; gap: 2px; overflow: hidden; margin-bottom: 2px; }
@@ -733,6 +794,7 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
     </div>
   </header>
 
+  <div id="appContent">
   <!-- DASHBOARD -->
   <div id="pageDashboard" class="page">
     <div class="section-header">
@@ -839,7 +901,7 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
     <div class="stats-section-title">💯 Highest Total Score in a Match</div>
     <div class="table-wrap" style="margin-bottom:24px;">
       <table><thead><tr>
-        <th>Rank</th><th>Match</th><th>Type</th><th>Score</th><th>Total Points</th>
+        <th>Rank</th><th>Team</th><th>Match</th><th>Type</th><th>Score</th>
       </tr></thead>
       <tbody id="statsMatchScoreTbody"></tbody></table>
     </div>
@@ -903,6 +965,8 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
     </div>
   </div>
 </div>
+
+  </div><!-- /appContent -->
 
 <!-- MODALS -->
 <div id="modalOverlay" class="modal-overlay" onclick="closeModalOnBg(event)">
@@ -1060,7 +1124,7 @@ async function ensureTables() {
       id SERIAL PRIMARY KEY, team1_id INTEGER, team2_id INTEGER,
       match_type TEXT DEFAULT 'league', round_num INTEGER DEFAULT 0,
       rounds_data JSONB DEFAULT '[]', total1 INTEGER DEFAULT 0, total2 INTEGER DEFAULT 0,
-      played BOOLEAN DEFAULT false, match_date DATE, match_time TEXT,
+      played BOOLEAN DEFAULT false, locked BOOLEAN DEFAULT false, walkover BOOLEAN DEFAULT false, walkover_winner INTEGER, match_date DATE, match_time TEXT,
       sort_order INTEGER DEFAULT 0, season_id INTEGER DEFAULT 1,
       created_by TEXT, created_at TIMESTAMPTZ,
       edited_by TEXT, edited_at TIMESTAMPTZ
@@ -1422,7 +1486,7 @@ function subscribeRealtime() {
 function calcStandings() {
   const map = {};
   allTeams.forEach(t => {
-    map[t.id] = { id: t.id, name: t.name, colour: t.colour, P:0, W:0, D:0, L:0, scored:0, conceded:0, pts:0 };
+    map[t.id] = { id: t.id, name: t.name, colour: t.colour, P:0, W:0, L:0, scored:0, conceded:0, pts:0 };
   });
   allFixtures.filter(f => f.match_type === 'league' && f.played).forEach(f => {
     const t1 = map[f.team1_id], t2 = map[f.team2_id];
@@ -1431,9 +1495,17 @@ function calcStandings() {
     t1.P++; t2.P++;
     t1.scored += s1; t1.conceded += s2;
     t2.scored += s2; t2.conceded += s1;
-    if (s1 > s2) { t1.W++; t1.pts+=2; t2.L++; }
-    else if (s2 > s1) { t2.W++; t2.pts+=2; t1.L++; }
-    else { t1.D++; t1.pts++; t2.D++; t2.pts++; }
+    let winner, loser;
+    if (s1 > s2) { winner = t1; loser = t2; }
+    else if (s2 > s1) { winner = t2; loser = t1; }
+    else {
+      // Scores tied — tiebreak by shows (odd rounds = always a winner)
+      const shows1 = countShows(f, f.team1_id);
+      const shows2 = countShows(f, f.team2_id);
+      if (shows1 >= shows2) { winner = t1; loser = t2; }
+      else { winner = t2; loser = t1; }
+    }
+    winner.W++; winner.pts += 2; loser.L++;
   });
   return Object.values(map).sort((a,b) => {
     if (b.pts !== a.pts) return b.pts - a.pts;
@@ -1441,9 +1513,24 @@ function calcStandings() {
   });
 }
 
+function countShows(f, teamId) {
+  const team = allTeams.find(t => t.id === teamId);
+  if (!team) return 0;
+  return (f.rounds_data || []).filter(rd => {
+    const sid = rd.show_player_id;
+    return sid && sid !== 'noshow' &&
+      (team.player1_id == sid || team.player2_id == sid);
+  }).length;
+}
+
 function isLeagueComplete() {
   const league = allFixtures.filter(f => f.match_type === 'league');
   return league.length > 0 && league.every(f => f.played);
+}
+
+function hasIncompleteMatches() {
+  // In-progress: has some rounds saved but not fully played
+  return allFixtures.filter(f => f.match_type === 'league' && !f.played && (f.rounds_data||[]).some(r=>r.saved));
 }
 
 // ═══════════════════════════════════════════════════════
@@ -1552,7 +1639,7 @@ function renderDashboard() {
   const tableHTML = standings.length ? `
     <table><thead><tr>
       <th>Rank</th><th>Team</th><th>Players</th>
-      <th title="Played">P</th><th title="Won">W</th><th title="Draw">D</th><th title="Lost">L</th>
+      <th title="Played">P</th><th title="Won">W</th><th title="Lost">L</th>
       <th title="Scored">Scrd</th><th title="Conceded">Conc</th><th title="Net Score Diff">NSD</th><th title="Points">Pts</th>
       <th title="Last 5 Results">Form</th>
     </tr></thead><tbody>
@@ -1566,7 +1653,7 @@ function renderDashboard() {
           const isT1 = f.team1_id === t.id;
           const s1 = isT1 ? f.total1 : f.total2;
           const s2 = isT1 ? f.total2 : f.total1;
-          const res = s1>s2?'W':s1<s2?'L':'D';
+          const res = s1>s2?'W':'L';
           const col = res==='W'?'#4caf7d':res==='D'?'#4a9eff':'#e05555';
           return `<span title="${res}" style="display:inline-block;width:16px;height:16px;border-radius:50%;background:${col};margin:0 1px;font-size:0.55rem;line-height:16px;text-align:center;color:#fff;font-weight:800;">${res}</span>`;
         }).join('');
@@ -1574,14 +1661,14 @@ function renderDashboard() {
           <td>${i+1}</td>
           <td><span class="col-dot" style="background:${t.colour};box-shadow:0 0 6px ${t.colour}88;"></span>${t.name}${currentUser.teamName===t.name?'<span class="your-team-badge">You</span>':''}</td>
           <td class="text-grey text-sm">${getPlayers(t)}</td>
-          <td>${t.P}</td><td>${t.W}</td><td>${t.D}</td><td>${t.L}</td>
+          <td>${t.P}</td><td>${t.W}</td><td>${t.L}</td>
           <td>${t.scored}</td><td>${t.conceded}</td>
           <td style="color:${nsd>0?'var(--green)':nsd<0?'var(--red)':'var(--grey)'}">${nsd>0?'+':''}${nsd}</td>
           <td class="fw-bold text-gold">${t.pts}</td>
           <td>${formDots || '<span class="text-grey text-sm">—</span>'}</td>
         </tr>
         <tr class="expand-detail" id="expand-team-${t.id}">
-          <td colspan="12">
+          <td colspan="11">
             <div class="expand-inner">
               <div style="font-size:0.75rem;color:var(--gold);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;">Match Results</div>
               ${matchResults.length ? matchResults.map(f => {
@@ -1589,7 +1676,7 @@ function renderDashboard() {
                 const s1 = isT1 ? f.total1 : f.total2;
                 const s2 = isT1 ? f.total2 : f.total1;
                 const opp = allTeams.find(x => x.id === (isT1 ? f.team2_id : f.team1_id));
-                const res = s1>s2?'W':s1<s2?'L':'D';
+                const res = s1>s2?'W':'L';
                 const oppName = opp?.name || '?';
                 return `<div style="display:flex;align-items:center;gap:10px;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:0.82rem;">
                   <span class="badge badge-${res.toLowerCase()}">${res}</span>
@@ -1727,10 +1814,13 @@ function renderSchedule() {
     const leagueDone = isLeagueComplete();
     const hasKO = allFixtures.some(f => f.match_type !== 'league');
     const hasDates = allFixtures.some(f => f.match_date);
+    const incomplete = hasIncompleteMatches();
+    const canGenKO = leagueDone && !hasKO && incomplete.length === 0;
     adminBtns.innerHTML = `
       <button class="btn btn-outline btn-sm" onclick="generateLeague()">⚡ Generate League</button>
       <button class="btn btn-outline btn-sm" onclick="openAddMatch()">+ Add Match</button>
-      ${leagueDone && !hasKO ? `<button class="btn btn-gold btn-sm" onclick="generateKnockouts()">🏆 Generate Knockouts</button>` : ''}
+      ${leagueDone && !hasKO ? `<button class="btn ${canGenKO?'btn-gold':'btn-ghost'} btn-sm" onclick="generateKnockouts()" ${!canGenKO?'title="Some matches have unsaved rounds"':''}>🏆 Generate Knockouts${!canGenKO?' ⚠':''}
+</button>` : ''}
       ${leagueDone && hasKO ? `<button class="btn btn-outline btn-sm" onclick="populateFinal()">🔄 Update Final</button>` : ''}
       ${hasDates ? `<button class="btn btn-ghost btn-sm" onclick="sortByDate()">📅 Sort by Date</button>` : ''}
     `;
@@ -1759,7 +1849,21 @@ function renderSchedule() {
     container.innerHTML = '<div class="empty-state"><div class="es-icon">📅</div>No matches yet. Generate the league schedule.</div>';
     return;
   }
-  container.innerHTML = fixtures.map(f => renderMatchCard(f, isAdmin, isAdmin || isScorer, matchNumMap[f.id])).join('');
+
+  // Warning banner for in-progress matches
+  const inProgressMatches = allFixtures.filter(f => f.match_type==='league' && !f.played && (f.rounds_data||[]).some(r=>r.saved));
+  let warningBanner = '';
+  if (inProgressMatches.length > 0) {
+    warningBanner = `<div style="background:rgba(240,180,41,0.1);border:1px solid rgba(240,180,41,0.35);border-radius:10px;padding:10px 14px;margin-bottom:14px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:1.2rem;">⚠️</span>
+      <div>
+        <div style="font-size:0.78rem;font-weight:800;color:var(--gold);">${inProgressMatches.length} match${inProgressMatches.length>1?'es are':' is'} partially scored</div>
+        <div style="font-size:0.72rem;color:var(--grey);margin-top:2px;">Standings and stats will not update until all rounds are saved.</div>
+      </div>
+    </div>`;
+  }
+
+  container.innerHTML = warningBanner + fixtures.map(f => renderMatchCard(f, isAdmin, isAdmin || isScorer, matchNumMap[f.id])).join('');
 
   // Drag-and-drop for admin league matches
   if (isAdmin) {
@@ -1780,25 +1884,44 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
   const t1 = allTeams.find(t => t.id === f.team1_id);
   const t2 = allTeams.find(t => t.id === f.team2_id);
   if (!t1 || !t2) return '';
-  // Use passed match number for league, or SF/FINAL labels for knockouts
-  const typeLabel = f.match_type === 'semi' ? 'SF' : f.match_type === 'final' ? 'FINAL' : `MATCH ${matchNum||'?'}`;
-  const typeCls = f.match_type === 'semi' ? 'sf' : f.match_type === 'final' ? 'final' : '';
+
+  const isScorer = currentUser.role === 'scorer';
   const numRounds = (f.match_type === 'league') ? 3 : 5;
   const rounds = f.rounds_data || [];
+  const savedRounds = rounds.filter(rd => rd.saved).length;
+  const isLocked = !!f.locked;
+  const isWalkover = !!f.walkover;
 
-  // Build rounds
+  // Match status (A)
+  let matchStatus, statusClass;
+  if (f.played) { matchStatus = '✓ Complete'; statusClass = 'msp-complete'; }
+  else if (savedRounds > 0) { matchStatus = `⚠ ${savedRounds}/${numRounds} saved`; statusClass = 'msp-inprogress'; }
+  else { matchStatus = 'Pending'; statusClass = 'msp-pending'; }
+
+  const typeLabel = f.match_type === 'semi' ? 'SF' : f.match_type === 'final' ? 'FINAL' : `MATCH ${matchNum||'?'}`;
+  const typeCls = f.match_type === 'semi' ? 'sf' : f.match_type === 'final' ? 'final' : '';
+
+  // Can actually edit: canScore AND not locked (unless admin)
+  const canEdit = canScore && (!isLocked || isAdmin);
+
+  // Build rounds — each with its own Save button
   let roundsHTML = '';
   for (let r = 0; r < numRounds; r++) {
     const rd = rounds[r] || {};
-    const p1 = allPlayers.find(p => p.id === (t1.player1_id)); const p1b = allPlayers.find(p => p.id === t1.player2_id);
-    const p2 = allPlayers.find(p => p.id === (t2.player1_id)); const p2b = allPlayers.find(p => p.id === t2.player2_id);
-    const players1 = [p1,p1b].filter(Boolean); const players2 = [p2,p2b].filter(Boolean);
-    const allP = [...players1,...players2];
+    const rdSaved = !!rd.saved;
+    const p1 = allPlayers.find(p => p.id === t1.player1_id);
+    const p1b = allPlayers.find(p => p.id === t1.player2_id);
+    const p2 = allPlayers.find(p => p.id === t2.player1_id);
+    const p2b = allPlayers.find(p => p.id === t2.player2_id);
+    const allP = [p1,p1b,p2,p2b].filter(Boolean);
     const showOptions = allP.map(p => `<option value="${p.id}" ${rd.show_player_id==p.id?'selected':''}>${p.name}</option>`).join('');
 
-    roundsHTML += `
-      <div class="round-label">Round ${r+1}</div>
-      ${canScore ? `
+    if (canEdit && !isWalkover) {
+      roundsHTML += `
+        <div class="round-label">
+          Round ${r+1}
+          ${rdSaved ? `<span class="round-saved-stamp" style="margin-left:8px;">✓ Saved</span>` : ''}
+        </div>
         <input class="round-input" type="number" min="0" max="10000" step="1" data-round="${r}" data-team="1" value="${rd.s1??''}" placeholder="0" oninput="clampRoundInput(this);updateRoundTotal('${f.id}')" onkeydown="blockNonNumeric(event)">
         <div class="round-sep">–</div>
         <input class="round-input" type="number" min="0" max="10000" step="1" data-round="${r}" data-team="2" value="${rd.s2??''}" placeholder="0" oninput="clampRoundInput(this);updateRoundTotal('${f.id}')" onkeydown="blockNonNumeric(event)">
@@ -1807,41 +1930,86 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
           ${showOptions}
           <option value="noshow" ${rd.show_player_id==='noshow'?'selected':''}>No show</option>
         </select>
-      ` : `
+        <div class="round-save-btn">
+          <button class="btn btn-outline btn-sm" onclick="saveRound('${f.id}',${r})">Save Round ${r+1}</button>
+        </div>`;
+    } else {
+      roundsHTML += `
+        <div class="round-label">Round ${r+1}${rdSaved ? ' <span class="round-saved-stamp">✓</span>' : ''}</div>
         <div style="text-align:center;font-weight:700;">${rd.s1??'—'}</div>
         <div class="round-sep">–</div>
         <div style="text-align:center;font-weight:700;">${rd.s2??'—'}</div>
-        ${rd.show_player_id ? `<div class="shows-list">👤 ${getPlayerName(rd.show_player_id)}</div>` : ''}
-      `}
-    `;
+        ${rd.show_player_id ? `<div class="shows-list" style="grid-column:1/-1;font-size:0.75rem;color:var(--grey);">👤 ${getPlayerName(rd.show_player_id)}</div>` : ''}`;
+    }
   }
 
-  const saveRow = canScore ? `
-    <div class="score-save-row">
-      ${isAdmin ? `<div>
-        <div class="date-time-row">
-          <input type="date" id="date-${f.id}" value="${f.match_date||''}" onchange="saveDateTime('${f.id}')">
-          <input type="text" id="time-${f.id}" value="${f.match_time||''}" placeholder="HH:MM" style="width:80px;" onchange="saveDateTime('${f.id}')">
-        </div>
-      </div>` : ''}
-      <div style="display:flex;gap:8px;align-items:center;margin-left:auto;">
-        <button class="btn btn-gold btn-sm" onclick="saveScore('${f.id}')">Save Score</button>
-        ${isAdmin ? `<button class="btn btn-danger btn-sm" onclick="deleteFixture('${f.id}')">🗑</button>` : ''}
+  // Walkover section
+  let walkoverHTML = '';
+  if (canEdit && !f.played) {
+    const woOpts = allTeams.filter(t => t.id===f.team1_id||t.id===f.team2_id)
+      .map(t => `<option value="${t.id}">${t.name}</option>`).join('');
+    walkoverHTML = `<div style="margin-top:12px;padding-top:12px;border-top:1px solid var(--border);">
+      <div style="font-size:0.72rem;color:var(--grey);font-weight:800;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">Walkover</div>
+      <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
+        <select id="wo-winner-${f.id}" class="show-select" style="flex:1;max-width:200px;">
+          <option value="">— Select winning team —</option>
+          ${woOpts}
+        </select>
+        <button class="btn btn-danger btn-sm" onclick="saveWalkover('${f.id}')">Mark W/O</button>
       </div>
+    </div>`;
+  }
+
+  // Date + time row (admin only) — change 1: AM/PM time picker
+  let dateTimeHTML = '';
+  if (canEdit && isAdmin) {
+    const [timeParsed, ampm] = parseMatchTime(f.match_time);
+    const [h12, mins] = timeParsed;
+    dateTimeHTML = `<div style="margin-top:10px;">
+      <div style="font-size:0.7rem;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;">Date &amp; Time</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;">
+        <input type="date" id="date-${f.id}" value="${f.match_date||''}" onchange="saveDateTime('${f.id}')" style="background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:6px;padding:6px 10px;color:var(--white);font-size:0.85rem;font-family:inherit;">
+        <div class="time-picker">
+          <select id="th-${f.id}" onchange="saveDateTime('${f.id}')">
+            ${[...Array(12)].map((_,i)=>`<option value="${i+1}" ${h12===i+1?'selected':''}>${i+1}</option>`).join('')}
+          </select>
+          <select id="tm-${f.id}" onchange="saveDateTime('${f.id}')">
+            ${['00','15','30','45'].map(m=>`<option value="${m}" ${mins===m?'selected':''}>${m}</option>`).join('')}
+          </select>
+          <div class="ampm-toggle">
+            <button class="ampm-btn ${ampm==='AM'?'active':''}" onclick="setAmPm('${f.id}','AM',this)">AM</button>
+            <button class="ampm-btn ${ampm==='PM'?'active':''}" onclick="setAmPm('${f.id}','PM',this)">PM</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // Lock/unlock button (B)
+  let lockHTML = '';
+  if (isAdmin && f.played) {
+    lockHTML = `<button class="btn btn-sm ${isLocked?'btn-outline':'btn-ghost'}" onclick="toggleLock('${f.id}')" style="margin-left:4px;">
+      ${isLocked ? '🔒 Locked' : '🔓 Lock'}
+    </button>`;
+  }
+
+  const saveRow = canEdit && !isWalkover ? `
+    <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
+      ${isAdmin ? `<button class="btn btn-danger btn-sm" onclick="deleteFixture('${f.id}')">🗑</button>` : ''}
     </div>
     ${f.created_at ? `<div class="score-stamp">✏️ ${f.created_by||'?'} @ ${formatDT(f.created_at)}${f.edited_at?` · Edited ${f.edited_by||'?'} @ ${formatDT(f.edited_at)}`:''}</div>` : ''}
   ` : `
-    ${f.created_at ? `<div class="score-stamp">Saved by ${f.created_by||'?'} @ ${formatDT(f.created_at)}</div>` : ''}
+    ${f.created_at && f.played ? `<div class="score-stamp">Saved by ${f.created_by||'?'} @ ${formatDT(f.created_at)}</div>` : ''}
   `;
 
   // Build round score bars (5) for played matches (viewer mode)
   let roundBarsHTML = '';
-  if (f.played && !canScore) {
+  if (f.played && !canEdit) {
     roundBarsHTML = rounds.map((rd, r) => {
       const s1 = rd.s1 || 0, s2 = rd.s2 || 0;
       const tot = s1 + s2 || 1;
       const w1 = Math.round((s1/tot)*96), w2 = Math.round((s2/tot)*96);
-      const rWin = s1>s2 ? `<span style="color:var(--gold);font-weight:700;">${t1.name}</span>` : s2>s1 ? `<span style="color:var(--blue);font-weight:700;">${t2.name}</span>` : `<span style="color:var(--grey);">Draw</span>`;
+      const rWin = s1>=s2 ? `<span style="color:var(--gold);font-weight:700;">${t1.name}</span>` : `<span style="color:var(--blue);font-weight:700;">${t2.name}</span>`;
       return `<div class="round-bar-wrap">
         <div style="display:flex;justify-content:space-between;font-size:0.65rem;font-weight:700;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;">
           <span>Round ${r+1}</span>${rWin}
@@ -1861,10 +2029,8 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
   // Result ribbon (18)
   let ribbon = '';
   if (f.played) {
-    const isT1Win = f.total1 > f.total2, isDraw = f.total1 === f.total2;
-    const ribbonClass = isDraw ? 'draw' : isT1Win ? 'win' : 'loss';
-    const ribbonText = isDraw ? 'Draw' : isT1Win ? 'Win' : 'Loss';
-    ribbon = `<div class="match-ribbon ${ribbonClass}">${ribbonText}</div>`;
+    const isT1Win = f.total1 >= f.total2;
+    ribbon = `<div class="match-ribbon ${isT1Win ? 'win' : 'loss'}">${isT1Win ? 'Win' : 'Loss'}</div>`;
   }
 
   return `
@@ -1877,10 +2043,15 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
             `<span class="team-name-sm"><span class="col-dot" style="background:${t.colour}"></span>${t.name}</span>`
           ).join('<span class="match-vs">vs</span>')}
         </div>
-        ${f.played ? `<span class="match-score">${f.total1} – ${f.total2}</span>` : ''}
+        <div style="display:flex;align-items:center;gap:6px;">
+          ${f.played ? `<span class="match-score">${f.total1} – ${f.total2}</span>` : ''}
+          ${isWalkover ? `<span class="walkover-label">W/O</span>` : ''}
+          ${isLocked ? `<span class="lock-badge">🔒</span>` : ''}
+        </div>
         <div style="display:flex;flex-direction:column;align-items:flex-end;gap:3px;">
           <span class="match-type-badge ${typeCls}">${typeLabel}</span>
-          ${f.match_date ? `<span class="text-grey text-sm">${formatDate(f.match_date)}</span>` : ''}
+          <span class="match-status-pill ${statusClass}">${matchStatus}</span>
+          ${f.match_date ? `<span class="text-grey text-sm">${formatDate(f.match_date)}${f.match_time ? ' ' + f.match_time : ''}</span>` : ''}
         </div>
       </div>
       <div class="match-body" id="mb-${f.id}">
@@ -1890,7 +2061,10 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
           <div class="total-box"><div class="t-score" id="tot2-${f.id}">${f.total2||0}</div><div class="t-label">${t2.name}</div></div>
         </div>
         ${roundBarsHTML ? `<div class="rounds-grid" id="rg-${f.id}" style="display:block;">${roundBarsHTML}</div>` : `<div class="rounds-grid" id="rg-${f.id}">${roundsHTML}</div>`}
+        ${dateTimeHTML}
+        ${walkoverHTML}
         ${saveRow}
+        ${lockHTML}
       </div>
     </div>
   `;
@@ -1944,60 +2118,177 @@ function updateRoundTotal(fid) {
   if (el2) el2.textContent = t2;
 }
 
-async function saveScore(fid) {
+// ── SAVE INDIVIDUAL ROUND ──────────────────────────────
+async function saveRound(fid, roundIdx) {
   const card = document.getElementById('mc-' + fid);
   if (!card) return;
   const f = allFixtures.find(x => x.id == fid);
   if (!f) return;
-  const numRounds = f.match_type === 'league' ? 3 : 5;
-  const roundsData = [];
-  let t1 = 0, t2 = 0, valid = true;
-  for (let r = 0; r < numRounds; r++) {
-    const i1 = card.querySelector(`[data-round="${r}"][data-team="1"]`);
-    const i2 = card.querySelector(`[data-round="${r}"][data-team="2"]`);
-    const show = card.querySelector(`.show-select[data-round="${r}"]`);
-    const s1 = parseInt(i1?.value || 0);
-    const s2 = parseInt(i2?.value || 0);
-    const showVal = show?.value || '';
-    if (isNaN(s1) || isNaN(s2) || s1 < 0 || s2 < 0 || s1 > 10000 || s2 > 10000) {
-      toast(`Round ${r+1}: scores must be between 0 and 10000`, 'error'); valid = false; break;
-    }
-    if (!showVal) { toast(`Round ${r+1}: select who showed`, 'error'); valid = false; break; }
-    t1 += s1; t2 += s2;
-    roundsData.push({ s1, s2, show_player_id: showVal });
-  }
-  if (!valid) return;
+  if (f.locked && currentUser.role !== 'admin') { toast('Match is locked','error'); return; }
 
-  const before = f.played ? { total1: f.total1, total2: f.total2, rounds: f.rounds_data } : null;
+  const i1 = card.querySelector(`[data-round="${roundIdx}"][data-team="1"]`);
+  const i2 = card.querySelector(`[data-round="${roundIdx}"][data-team="2"]`);
+  const show = card.querySelector(`.show-select[data-round="${roundIdx}"]`);
+  const s1 = parseInt(i1?.value);
+  const s2 = parseInt(i2?.value);
+  const showVal = show?.value || '';
+
+  if (isNaN(s1) || isNaN(s2) || s1 < 0 || s2 < 0) { toast(`Round ${roundIdx+1}: enter valid scores`, 'error'); return; }
+  if (!showVal) { toast(`Round ${roundIdx+1}: select who showed`, 'error'); return; }
+
+  const numRounds = f.match_type === 'league' ? 3 : 5;
+  // Merge into existing rounds_data
+  const rounds = [...(f.rounds_data || [])];
+  while (rounds.length <= roundIdx) rounds.push({});
+  rounds[roundIdx] = { s1, s2, show_player_id: showVal, saved: true };
+
+  // Check if all rounds now saved
+  const allSaved = rounds.length >= numRounds && rounds.every(r => r.saved);
+  let total1 = 0, total2 = 0;
+  if (allSaved) {
+    // Apply shows tiebreaker if totals equal
+    rounds.forEach(r => { total1 += r.s1||0; total2 += r.s2||0; });
+    if (total1 === total2) {
+      const shows1 = rounds.filter(r => {
+        const sid = r.show_player_id;
+        const tm = allTeams.find(t => t.id === f.team1_id);
+        return sid && sid !== 'noshow' && (tm?.player1_id==sid || tm?.player2_id==sid);
+      }).length;
+      const shows2 = rounds.filter(r => {
+        const sid = r.show_player_id;
+        const tm = allTeams.find(t => t.id === f.team2_id);
+        return sid && sid !== 'noshow' && (tm?.player1_id==sid || tm?.player2_id==sid);
+      }).length;
+      if (shows2 > shows1) { total1 = 0; total2 = 1; }
+      else { total1 = 1; total2 = 0; }
+      toast('Scores tied — winner decided by shows', 'info');
+    }
+  }
+
   const now = new Date().toISOString();
   const updateData = {
-    rounds_data: roundsData, total1: t1, total2: t2, played: true,
-    edited_by: currentUser.username, edited_at: now,
-    ...(!f.created_at ? { created_by: currentUser.username, created_at: now } : {})
+    rounds_data: rounds,
+    ...(allSaved ? {
+      total1, total2, played: true,
+      edited_by: currentUser.username, edited_at: now,
+      ...(!f.created_at ? { created_by: currentUser.username, created_at: now } : {}),
+      // Auto-lock for scorer after all rounds saved
+      ...(currentUser.role === 'scorer' ? { locked: true } : {})
+    } : {
+      edited_by: currentUser.username, edited_at: now
+    })
   };
+
   try {
     await sbUpdate('ppl_fixtures', updateData, `id=eq.${fid}`);
-    // Update local
     Object.assign(f, updateData);
-    // Audit
-    await logAudit(before ? 'edit' : 'score', f, before, { total1: t1, total2: t2, rounds: roundsData });
-    const ta = allTeams.find(t=>t.id===f.team1_id)?.name||'?';
-    const tb = allTeams.find(t=>t.id===f.team2_id)?.name||'?';
-    toast('Score saved!', 'success', `${ta} ${t1} – ${tb} ${t2}`);
-    if (!before) launchConfetti();
+    toast(`Round ${roundIdx+1} saved`, 'success');
+    if (allSaved) {
+      const ta = allTeams.find(t=>t.id===f.team1_id)?.name||'?';
+      const tb = allTeams.find(t=>t.id===f.team2_id)?.name||'?';
+      toast('All rounds complete!', 'success', `${ta} ${f.total1} – ${tb} ${f.total2}`);
+      launchConfetti();
+      await logAudit('score', f, null, { total1: f.total1, total2: f.total2, rounds });
+    }
     await loadFixtures();
     renderSchedule();
     if (document.getElementById('pageDashboard').classList.contains('active')) renderDashboard();
   } catch(e) { toast('Save error: ' + e.message, 'error'); }
 }
 
+// ── WALKOVER ───────────────────────────────────────────
+async function saveWalkover(fid) {
+  const f = allFixtures.find(x => x.id == fid);
+  if (!f) return;
+  const sel = document.getElementById('wo-winner-' + fid);
+  const winnerId = parseInt(sel?.value);
+  if (!winnerId) { toast('Select winning team', 'error'); return; }
+  const ok = await confirm2('Confirm Walkover', `Mark this match as a walkover win?`, '🚶');
+  if (!ok) return;
+  const isT1Winner = winnerId === f.team1_id;
+  const numRounds = f.match_type === 'league' ? 3 : 5;
+  const woRounds = Array.from({length: numRounds}, () => ({
+    s1: isT1Winner ? 1 : 0, s2: isT1Winner ? 0 : 1,
+    show_player_id: 'noshow', saved: true
+  }));
+  const now = new Date().toISOString();
+  const updateData = {
+    rounds_data: woRounds,
+    total1: isT1Winner ? numRounds : 0, total2: isT1Winner ? 0 : numRounds,
+    played: true, walkover: true, walkover_winner: winnerId,
+    created_by: currentUser.username, created_at: now,
+    edited_by: currentUser.username, edited_at: now
+  };
+  try {
+    await sbUpdate('ppl_fixtures', updateData, `id=eq.${fid}`);
+    Object.assign(f, updateData);
+    const wTeam = allTeams.find(t => t.id === winnerId)?.name || '?';
+    toast('Walkover saved', 'success', `${wTeam} wins by walkover`);
+    await logAudit('score', f, null, updateData);
+    await loadFixtures(); renderSchedule();
+    if (document.getElementById('pageDashboard').classList.contains('active')) renderDashboard();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ── LOCK / UNLOCK (B) ─────────────────────────────────
+async function toggleLock(fid) {
+  const f = allFixtures.find(x => x.id == fid);
+  if (!f) return;
+  if (currentUser.role !== 'admin') { toast('Only admin can lock/unlock', 'error'); return; }
+  const newLocked = !f.locked;
+  try {
+    await sbUpdate('ppl_fixtures', { locked: newLocked }, `id=eq.${fid}`);
+    f.locked = newLocked;
+    toast(newLocked ? 'Match locked 🔒' : 'Match unlocked 🔓', 'success');
+    renderSchedule();
+  } catch(e) { toast('Error: ' + e.message, 'error'); }
+}
+
+// ── LEGACY saveScore kept for any direct calls ─────────
+async function saveScore(fid) {
+  // Redirect to per-round save flow — save all rounds at once
+  const f = allFixtures.find(x => x.id == fid);
+  if (!f) return;
+  const numRounds = f.match_type === 'league' ? 3 : 5;
+  for (let r = 0; r < numRounds; r++) await saveRound(fid, r);
+}
+
+// ── TIME HELPERS ──────────────────────────────────────
+function parseMatchTime(timeStr) {
+  if (!timeStr) return [[12, '00'], 'AM'];
+  const [hStr, rest] = timeStr.split(':');
+  const h24 = parseInt(hStr) || 12;
+  const minsAmpm = (rest || '00 AM').split(' ');
+  const mins = (minsAmpm[0] || '00').padStart(2,'0');
+  const ampm = minsAmpm[1] || (h24 >= 12 ? 'PM' : 'AM');
+  const h12 = h24 === 0 ? 12 : h24 > 12 ? h24 - 12 : h24;
+  return [[h12, mins], ampm];
+}
+
+function setAmPm(fid, val, btn) {
+  const container = btn.closest('.ampm-toggle');
+  container.querySelectorAll('.ampm-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  saveDateTime(fid);
+}
+
 async function saveDateTime(fid) {
   const d = document.getElementById('date-'+fid)?.value;
-  const t = document.getElementById('time-'+fid)?.value;
+  const th = document.getElementById('th-'+fid)?.value;
+  const tm = document.getElementById('tm-'+fid)?.value;
+  const ampmActive = document.querySelector(`#mb-${fid} .ampm-btn.active`);
+  const ampm = ampmActive?.textContent || 'AM';
+  let timeStr = null;
+  if (th && tm) {
+    let h = parseInt(th);
+    if (ampm === 'PM' && h !== 12) h += 12;
+    if (ampm === 'AM' && h === 12) h = 0;
+    timeStr = `${String(h).padStart(2,'0')}:${tm} ${ampm}`;
+  }
   try {
-    await sbUpdate('ppl_fixtures', { match_date: d||null, match_time: t||null }, `id=eq.${fid}`);
+    await sbUpdate('ppl_fixtures', { match_date: d||null, match_time: timeStr }, `id=eq.${fid}`);
     const f = allFixtures.find(x => x.id == fid);
-    if (f) { f.match_date = d; f.match_time = t; }
+    if (f) { f.match_date = d; f.match_time = timeStr; }
   } catch(e) { toast('Date save error','error'); }
 }
 
@@ -2159,6 +2450,11 @@ async function generateLeague() {
 }
 
 async function generateKnockouts() {
+  const incomplete = hasIncompleteMatches();
+  if (incomplete.length > 0) {
+    toast(`⚠️ ${incomplete.length} match${incomplete.length>1?'es have':' has'} unsaved rounds — complete all rounds before generating knockouts`, 'error');
+    return;
+  }
   const standings = calcStandings();
   if (standings.length < 4) { toast('Need at least 4 teams in standings','error'); return; }
   const t1 = standings[0], t4 = standings[3], t2 = standings[1], t3 = standings[2];
@@ -2637,26 +2933,28 @@ function renderStats() {
     </tr>`).join('')
     : `<tr><td colspan="6" class="empty-state">No scored rounds yet</td></tr>`;
 
-  // ── 5. HIGHEST TOTAL SCORE PER MATCH ──────────────
-  const matchScores = playedFixtures.map(f => {
+  // ── 5. HIGHEST INDIVIDUAL TEAM SCORE (top 5) ─────────
+  const teamMatchScores = [];
+  playedFixtures.forEach(f => {
     const t1 = allTeams.find(t => t.id === f.team1_id);
     const t2 = allTeams.find(t => t.id === f.team2_id);
-    const [nameA, nameB] = [t1?.name||'?', t2?.name||'?'].sort((a,b) => a.localeCompare(b));
-    const total = (f.total1 || 0) + (f.total2 || 0);
     const typeLabel = f.match_type === 'semi' ? 'SF' : f.match_type === 'final' ? 'Final' : 'League';
-    // Keep original score order for display even if names are sorted
-    return { matchLabel: `${nameA} vs ${nameB}`, score1: f.total1||0, score2: f.total2||0,
-             t1name: t1?.name||'?', t2name: t2?.name||'?', total, typeLabel };
-  }).sort((a, b) => b.total - a.total);
+    const [nameA, nameB] = [t1?.name||'?', t2?.name||'?'].sort((a,b)=>a.localeCompare(b));
+    const matchLabel = `${nameA} vs ${nameB}`;
+    if (t1) teamMatchScores.push({ teamName: t1.name, colour: t1.colour, score: f.total1||0, matchLabel, typeLabel });
+    if (t2) teamMatchScores.push({ teamName: t2.name, colour: t2.colour, score: f.total2||0, matchLabel, typeLabel });
+  });
+  teamMatchScores.sort((a, b) => b.score - a.score);
+  const top5 = teamMatchScores.slice(0, 5);
 
   const matchScoreTbody = document.getElementById('statsMatchScoreTbody');
-  matchScoreTbody.innerHTML = matchScores.length ? matchScores.map((r, i) => `
+  matchScoreTbody.innerHTML = top5.length ? top5.map((r, i) => `
     <tr class="${i===0?'stats-rank-1':i===1?'stats-rank-2':i===2?'stats-rank-3':''}">
       <td>${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</td>
-      <td><strong>${r.matchLabel}</strong></td>
+      <td><span class="col-dot" style="background:${r.colour}"></span><strong>${r.teamName}</strong></td>
+      <td class="text-grey text-sm">${r.matchLabel}</td>
       <td><span class="badge ${r.typeLabel==='Final'?'badge-ko':r.typeLabel==='SF'?'badge-d':'badge-w'}">${r.typeLabel}</span></td>
-      <td class="text-grey">${r.t1name}: ${r.score1} · ${r.t2name}: ${r.score2}</td>
-      <td><strong>${r.total}</strong></td>
+      <td><strong style="color:var(--gold)">${r.score}</strong></td>
     </tr>`).join('')
     : `<tr><td colspan="5" class="empty-state">No played matches yet</td></tr>`;
 }
