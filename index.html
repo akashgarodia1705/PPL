@@ -1984,10 +1984,12 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
 
   const saveRow = canEdit && !isWalkover ? `
     <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:flex-end;">
-      ${isAdmin ? `<button class="btn btn-danger btn-sm" onclick="deleteFixture('${f.id}')">🗑</button>` : ''}
+      ${isAdmin && f.played ? `<button class="btn btn-sm ${isLocked?'btn-outline':'btn-ghost'}" onclick="toggleLock('${f.id}')" style="border:1px solid ${isLocked?'rgba(74,158,255,0.4)':'rgba(255,255,255,0.2)'};">${isLocked ? '🔒 Unlock' : '🔓 Lock'}</button>` : ''}
+      ${isAdmin ? `<button class="btn btn-sm" onclick="deleteFixture('${f.id}')" style="background:rgba(224,85,85,0.12);color:var(--red);border:1px solid rgba(224,85,85,0.3);">🗑 Delete</button>` : ''}
     </div>
     ${f.created_at ? `<div class="score-stamp">✏️ ${f.created_by||'?'} @ ${formatDT(f.created_at)}${f.edited_at?` · Edited ${f.edited_by||'?'} @ ${formatDT(f.edited_at)}`:''}</div>` : ''}
   ` : `
+    ${isAdmin && f.played ? `<div style="margin-top:10px;display:flex;justify-content:flex-end;"><button class="btn btn-sm ${isLocked?'btn-outline':'btn-ghost'}" onclick="toggleLock('${f.id}')" style="border:1px solid ${isLocked?'rgba(74,158,255,0.4)':'rgba(255,255,255,0.2)'};">${isLocked ? '🔒 Unlock' : '🔓 Lock'}</button></div>` : ''}
     ${f.created_at && f.played ? `<div class="score-stamp">Saved by ${f.created_by||'?'} @ ${formatDT(f.created_at)}</div>` : ''}
   `;
 
@@ -2057,12 +2059,6 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
         ${dateTimeHTML}
         ${walkoverHTML}
         ${saveRow}
-        ${isAdmin && f.played ? `
-        <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:flex-end;">
-          <button class="btn btn-sm ${isLocked?'btn-outline':'btn-ghost'}" onclick="toggleLock('${f.id}')" style="border:1px solid ${isLocked?'rgba(74,158,255,0.4)':'rgba(255,255,255,0.15)'};">
-            ${isLocked ? '🔒 Unlock Match' : '🔓 Lock Match'}
-          </button>
-        </div>` : ''}
       </div>
     </div>
   `;
@@ -3003,20 +2999,57 @@ async function renderAudit() {
   const filtered = auditFilter === 'all' ? entries : entries.filter(e => e.action === auditFilter);
   const list = document.getElementById('auditList');
   if (!filtered.length) { list.innerHTML = '<div class="empty-state"><div class="es-icon">📜</div>No audit entries</div>'; return; }
-  list.innerHTML = filtered.map(e => `
-    <div class="audit-entry">
+
+  list.innerHTML = filtered.map(e => {
+    const isEdit = e.action === 'edit';
+    const isScore = e.action === 'score';
+    const actionLabel = isEdit ? 'Edited Score' : isScore ? 'Saved Score' : e.action;
+    const actionCls = isEdit ? 'badge-d' : isScore ? 'badge-w' : 'badge-ko';
+    const roleTag = e.username === 'admin' ? 'ADMIN' : e.username === 'scorer' ? 'SCORER' : e.username?.toUpperCase() || '?';
+    const roleCls = e.username === 'admin' ? 'color:var(--gold)' : 'color:var(--blue)';
+
+    // Parse round data from after_data
+    let roundsDetail = '';
+    const after = e.after_data;
+    if (after && after.rounds && Array.isArray(after.rounds)) {
+      const roundRows = after.rounds.map((r, i) =>
+        r.saved ? `<span style="font-size:0.72rem;color:var(--grey);margin-right:10px;">R${i+1}: <strong style="color:var(--white);">${r.s1??'—'} – ${r.s2??'—'}</strong>${r.show_player_id && r.show_player_id !== 'noshow' ? ` · 👤 ${getPlayerName(r.show_player_id)}` : ''}</span>` : ''
+      ).filter(Boolean).join('');
+      if (roundRows) roundsDetail = `<div style="margin-top:6px;flex-wrap:wrap;display:flex;">${roundRows}</div>`;
+    }
+
+    // Score summary
+    let scoreSummary = '';
+    if (after && (after.total1 !== undefined)) {
+      scoreSummary = `<span style="font-weight:800;color:var(--gold);margin-left:6px;">${after.total1} – ${after.total2}</span>`;
+    }
+
+    // Before/after diff for edits
+    let diffHTML = '';
+    if (isEdit && e.before_data && e.after_data) {
+      const b = e.before_data, a = e.after_data;
+      if (b.total1 !== undefined && a.total1 !== undefined) {
+        diffHTML = `<div class="audit-diff" style="margin-top:6px;">
+          <span class="before">Before: ${b.total1} – ${b.total2}</span>
+          <span style="color:var(--grey);margin:0 6px;">→</span>
+          <span class="after">After: ${a.total1} – ${a.total2}</span>
+        </div>`;
+      }
+    }
+
+    return `<div class="audit-entry">
       <div class="audit-header">
-        <div><span class="audit-who">${e.username}</span> <span class="badge ${e.action==='edit'?'badge-d':'badge-w'}">${e.action}</span></div>
+        <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+          <span class="audit-who" style="${roleCls}">${roleTag}</span>
+          <span class="badge ${actionCls}">${actionLabel}</span>
+          <span style="font-size:0.82rem;color:var(--grey);">${e.match_info||''}${scoreSummary}</span>
+        </div>
         <span class="audit-when">${formatDT(e.created_at)}</span>
       </div>
-      <div class="audit-detail">${e.match_info||''}</div>
-      ${e.before_data && e.after_data ? `
-        <div class="audit-diff">
-          <span class="before">Before: ${JSON.stringify(e.before_data)}</span><br>
-          <span class="after">After: ${JSON.stringify(e.after_data)}</span>
-        </div>` : ''}
-    </div>
-  `).join('');
+      ${roundsDetail}
+      ${diffHTML}
+    </div>`;
+  }).join('');
 }
 function filterAudit(type, btn) {
   auditFilter = type;
