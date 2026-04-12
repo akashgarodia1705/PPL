@@ -812,6 +812,7 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
     <div class="table-wrap" id="standingsTable"></div>
     <div id="bracketWrap" style="margin-top:24px;"></div>
     <div id="dashboardMiniStats" style="margin-top:24px;"></div>
+    <div id="recentActivityWrap" style="margin-top:20px;"></div>
     <div id="sparklineWrap" style="margin-top:8px;"></div>
   </div>
 
@@ -1540,7 +1541,7 @@ function hasIncompleteMatches() {
 // ═══════════════════════════════════════════════════════
 //  DASHBOARD
 // ═══════════════════════════════════════════════════════
-function renderDashboard() {
+async function renderDashboard() {
   const league = allFixtures.filter(f => f.match_type === 'league');
   const played = league.filter(f => f.played).length;
   const semis = allFixtures.filter(f => f.match_type === 'semi');
@@ -1703,21 +1704,77 @@ function renderDashboard() {
   // ── Mini stats below points table ──────────────────
   const qs = calcQuickStats();
   const miniEl = document.getElementById('dashboardMiniStats');
-  if (!qs.biggestWin) { miniEl.innerHTML = ''; return; }
-  miniEl.innerHTML = `
-    <div class="section-title" style="margin-bottom:12px;">⚡ Quick Stats</div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;">
-      ${qs.biggestWin ? `
-      <div class="card card-sm" style="display:flex;align-items:center;gap:14px;">
-        <div style="font-size:2rem;flex-shrink:0;">💪</div>
-        <div>
-          <div style="font-size:0.72rem;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Biggest Win Margin</div>
-          <div style="font-weight:800;font-size:1rem;">${qs.biggestWin.winnerName}</div>
-          <div style="color:var(--green);font-weight:700;">+${qs.biggestWin.margin} margin</div>
-        </div>
-      </div>` : ''}
-    </div>
-  `;
+  if (!qs.biggestWin && !qs.mostShows && !qs.topRoundScorer) { miniEl.innerHTML = ''; }
+  else {
+    miniEl.innerHTML = `
+      <div class="section-title" style="margin-bottom:12px;">⚡ Quick Stats</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;">
+        ${qs.biggestWin ? `
+        <div class="card card-sm" style="display:flex;align-items:center;gap:14px;">
+          <div style="font-size:2rem;flex-shrink:0;">💪</div>
+          <div>
+            <div style="font-size:0.68rem;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Biggest Win Margin</div>
+            <div style="font-weight:800;font-size:0.95rem;">${qs.biggestWin.winnerName}</div>
+            <div style="color:var(--green);font-weight:700;font-size:0.82rem;">+${qs.biggestWin.margin} · ${qs.biggestWin.winScore}–${qs.biggestWin.loseScore}</div>
+          </div>
+        </div>` : ''}
+        ${qs.mostShows ? `
+        <div class="card card-sm" style="display:flex;align-items:center;gap:14px;">
+          <div style="font-size:2rem;flex-shrink:0;">👤</div>
+          <div>
+            <div style="font-size:0.68rem;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Most Shows</div>
+            <div style="font-weight:800;font-size:0.95rem;">${qs.mostShows.name}</div>
+            <div style="color:var(--blue);font-weight:700;font-size:0.82rem;">${qs.mostShows.count} shows · ${qs.mostShows.pct}%</div>
+          </div>
+        </div>` : ''}
+        ${qs.topRoundScorer ? `
+        <div class="card card-sm" style="display:flex;align-items:center;gap:14px;">
+          <div style="font-size:2rem;flex-shrink:0;">🎯</div>
+          <div>
+            <div style="font-size:0.68rem;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Top Round Score</div>
+            <div style="font-weight:800;font-size:0.95rem;">${qs.topRoundScorer.name}</div>
+            <div style="color:var(--gold);font-weight:700;font-size:0.82rem;">${qs.topRoundScorer.score} pts · R${qs.topRoundScorer.round}</div>
+            <div style="font-size:0.68rem;color:var(--grey);margin-top:1px;">${qs.topRoundScorer.matchLabel}</div>
+          </div>
+        </div>` : ''}
+      </div>
+    `;
+  }
+
+  // Recent activity feed — score saves only, visible to all users
+  const activityEl = document.getElementById('recentActivityWrap');
+  if (activityEl) {
+    try {
+      const auditEntries = await sbQuery('ppl_audit',
+        `season_id=eq.${currentSeason}&action=in.(score,edit)&select=*&order=created_at.desc&limit=5`
+      );
+      if (auditEntries && auditEntries.length > 0) {
+        const rows = auditEntries.map(e => {
+          const isEdit = e.action === 'edit';
+          const dotColor = isEdit ? 'var(--blue)' : 'var(--green)';
+          const after = e.after_data;
+          const scoreStr = after && after.total1 !== undefined
+            ? `<strong style="color:var(--gold)">${after.total1} – ${after.total2}</strong>` : '';
+          const label = isEdit ? 'Edited score' : 'Saved score';
+          const who = e.username === 'admin' ? `<span style="color:var(--gold);font-weight:800;">admin</span>`
+            : e.username === 'scorer' ? `<span style="color:var(--blue);font-weight:800;">scorer</span>`
+            : `<span style="font-weight:800;">${e.username}</span>`;
+          return `<div style="display:flex;gap:12px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <div style="width:8px;height:8px;border-radius:50%;background:${dotColor};flex-shrink:0;margin-top:5px;"></div>
+            <div>
+              <div style="font-size:0.82rem;">${who} ${label} — ${e.match_info||''}${scoreStr ? ' · ' + scoreStr : ''}</div>
+              <div style="font-size:0.68rem;color:var(--grey);margin-top:2px;">${formatDT(e.created_at)}</div>
+            </div>
+          </div>`;
+        }).join('');
+        activityEl.innerHTML = `
+          <div class="section-title" style="margin-bottom:12px;">⚡ Recent Activity</div>
+          <div class="card" style="padding:4px 16px;">${rows}</div>`;
+      } else {
+        activityEl.innerHTML = '';
+      }
+    } catch(e) { activityEl.innerHTML = ''; }
+  }
 
   // Sparklines (13)
   const sparkEl = document.getElementById('sparklineWrap');
@@ -2957,23 +3014,6 @@ function renderStats() {
 function calcQuickStats() {
   const playedFixtures = allFixtures.filter(f => f.played);
 
-  // Top scorer (player with most total score across showed rounds)
-  const playerScoreMap = {};
-  playedFixtures.forEach(f => {
-    const t1 = allTeams.find(t => t.id === f.team1_id);
-    const t2 = allTeams.find(t => t.id === f.team2_id);
-    (f.rounds_data || []).forEach(rd => {
-      const sid = rd.show_player_id;
-      if (!sid || sid === 'noshow') return;
-      const onTeam1 = t1 && (t1.player1_id == sid || t1.player2_id == sid);
-      const score = onTeam1 ? (rd.s1 || 0) : (rd.s2 || 0);
-      playerScoreMap[sid] = (playerScoreMap[sid] || 0) + score;
-    });
-  });
-  const topScorer = Object.entries(playerScoreMap)
-    .map(([pid, score]) => ({ name: allPlayers.find(p => p.id == pid)?.name || '?', score }))
-    .sort((a, b) => b.score - a.score)[0];
-
   // Biggest win margin
   const biggestWin = playedFixtures
     .filter(f => f.total1 !== f.total2)
@@ -2982,11 +3022,51 @@ function calcQuickStats() {
       const t2 = allTeams.find(t => t.id === f.team2_id);
       const margin = Math.abs((f.total1||0) - (f.total2||0));
       const winner = f.total1 > f.total2 ? t1 : t2;
-      return { winnerName: winner?.name || '?', margin };
+      const loser  = f.total1 > f.total2 ? t2 : t1;
+      const winScore  = Math.max(f.total1||0, f.total2||0);
+      const loseScore = Math.min(f.total1||0, f.total2||0);
+      return { winnerName: winner?.name || '?', loserName: loser?.name || '?', margin, winScore, loseScore };
     })
     .sort((a, b) => b.margin - a.margin)[0];
 
-  return { topScorer, biggestWin };
+  // Most shows by a single player
+  const totalRounds = playedFixtures.reduce((sum, f) => sum + (f.rounds_data||[]).length, 0);
+  const showMap = {};
+  playedFixtures.forEach(f => {
+    (f.rounds_data||[]).forEach(rd => {
+      const sid = rd.show_player_id;
+      if (sid && sid !== 'noshow') showMap[sid] = (showMap[sid] || 0) + 1;
+    });
+  });
+  const mostShows = Object.entries(showMap)
+    .map(([pid, count]) => {
+      const player = allPlayers.find(p => p.id == pid);
+      const pct = totalRounds > 0 ? Math.round((count / totalRounds) * 100) : 0;
+      return { name: player?.name || '?', count, pct };
+    })
+    .sort((a, b) => b.count - a.count)[0] || null;
+
+  // Top single-round score by a player (who showed in that round)
+  let topRoundScorer = null;
+  playedFixtures.forEach(f => {
+    const t1 = allTeams.find(t => t.id === f.team1_id);
+    const t2 = allTeams.find(t => t.id === f.team2_id);
+    (f.rounds_data||[]).forEach((rd, rIdx) => {
+      const sid = rd.show_player_id;
+      if (!sid || sid === 'noshow') return;
+      const player = allPlayers.find(p => p.id == sid);
+      if (!player) return;
+      const onTeam1 = t1 && (t1.player1_id == sid || t1.player2_id == sid);
+      const score = onTeam1 ? (rd.s1||0) : (rd.s2||0);
+      const opp = onTeam1 ? t2 : t1;
+      if (!topRoundScorer || score > topRoundScorer.score) {
+        const [nameA, nameB] = [t1?.name||'?', t2?.name||'?'].sort((a,b) => a.localeCompare(b));
+        topRoundScorer = { name: player.name, score, round: rIdx + 1, matchLabel: `${nameA} vs ${nameB}`, oppName: opp?.name||'?' };
+      }
+    });
+  });
+
+  return { biggestWin, mostShows, topRoundScorer };
 }
 
 // ═══════════════════════════════════════════════════════
