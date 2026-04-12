@@ -130,10 +130,8 @@ nav::-webkit-scrollbar { height: 0; }
   border-radius: 4px; padding: 1px 6px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
 }
 
-/* ── APP SHELL (mobile flex-column fix) ── */
-#app { display: flex; flex-direction: column; height: 100vh; overflow: hidden; }
-#appHeader { flex-shrink: 0; }
-#appContent { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
+/* ── APP SHELL ── */
+#appContent { display: block; }
 
 /* ── PAGES ── */
 .page { display: none; max-width: 1200px; margin: 0 auto; padding: 24px 16px 80px; }
@@ -691,6 +689,10 @@ input[type="color"] { width: 40px; height: 40px; border: 1px solid rgba(255,255,
   /* BOTTOM NAV (1) — hides top nav on mobile */
   #appHeader nav { display: none; }
   #bottomNav { display: flex !important; flex-direction: column; }
+  /* Mobile scroll fix — pin nav at bottom, content scrolls */
+  #app { display: flex; flex-direction: column; height: 100dvh; overflow: hidden; }
+  #appHeader { flex-shrink: 0; }
+  #appContent { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; }
 }
 /* ── BOTTOM NAV (1) ── */
 #bottomNav {
@@ -1699,19 +1701,10 @@ function renderDashboard() {
   // ── Mini stats below points table ──────────────────
   const qs = calcQuickStats();
   const miniEl = document.getElementById('dashboardMiniStats');
-  if (!qs.topScorer && !qs.biggestWin) { miniEl.innerHTML = ''; return; }
+  if (!qs.biggestWin) { miniEl.innerHTML = ''; return; }
   miniEl.innerHTML = `
     <div class="section-title" style="margin-bottom:12px;">⚡ Quick Stats</div>
     <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;">
-      ${qs.topScorer ? `
-      <div class="card card-sm" style="display:flex;align-items:center;gap:14px;">
-        <div style="font-size:2rem;flex-shrink:0;">🎯</div>
-        <div>
-          <div style="font-size:0.72rem;color:var(--grey);text-transform:uppercase;letter-spacing:1px;margin-bottom:2px;">Top Scorer (Season)</div>
-          <div style="font-weight:800;font-size:1rem;">${qs.topScorer.name}</div>
-          <div style="color:var(--gold);font-weight:700;">${qs.topScorer.score} pts total</div>
-        </div>
-      </div>` : ''}
       ${qs.biggestWin ? `
       <div class="card card-sm" style="display:flex;align-items:center;gap:14px;">
         <div style="font-size:2rem;flex-shrink:0;">💪</div>
