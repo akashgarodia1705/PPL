@@ -2089,9 +2089,9 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
         <div style="display:flex;flex-direction:column;gap:4px;flex:1;min-width:0;">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:nowrap;">
             <div class="match-teams" style="flex:1;min-width:0;">
-              ${[{name:t1.name,colour:t1.colour},{name:t2.name,colour:t2.colour}].sort((a,b)=>a.name.localeCompare(b.name)).map(t=>
-                `<span class="team-name-sm"><span class="col-dot" style="background:${t.colour}"></span>${t.name}</span>`
-              ).join('<span class="match-vs">vs</span>')}
+              <span class="team-name-sm"><span class="col-dot" style="background:${t1.colour}"></span>${t1.name}</span>
+              <span class="match-vs">vs</span>
+              <span class="team-name-sm"><span class="col-dot" style="background:${t2.colour}"></span>${t2.name}</span>
             </div>
             <div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">
               ${f.played ? `<span class="match-score">${f.total1} – ${f.total2}</span>` : ''}
@@ -2307,13 +2307,26 @@ async function saveScore(fid) {
 // ── TIME HELPERS ──────────────────────────────────────
 function parseMatchTime(timeStr) {
   if (!timeStr) return [[12, '00'], 'AM'];
-  const [hStr, rest] = timeStr.split(':');
-  const h24 = parseInt(hStr) || 12;
-  const minsAmpm = (rest || '00 AM').split(' ');
-  const mins = (minsAmpm[0] || '00').padStart(2,'0');
-  const ampm = minsAmpm[1] || (h24 >= 12 ? 'PM' : 'AM');
-  const h12 = h24 === 0 ? 12 : h24 > 12 ? h24 - 12 : h24;
-  return [[h12, mins], ampm];
+  // Format: "8:30 PM" or "20:30 PM" (legacy) or "20:30" (very old)
+  const parts = timeStr.trim().split(' ');
+  const timePart = parts[0]; // "8:30" or "20:30"
+  const ampmPart = parts[1] || null; // "AM", "PM", or null
+  const [hStr, mStr] = timePart.split(':');
+  let h = parseInt(hStr) || 12;
+  const mins = (mStr || '00').padStart(2, '0');
+  let ampm;
+  if (ampmPart) {
+    ampm = ampmPart.toUpperCase();
+    // If hour is 24hr style (>12), convert to 12hr
+    if (h > 12) { h -= 12; }
+    else if (h === 0) { h = 12; }
+  } else {
+    // Legacy pure 24hr with no AM/PM
+    ampm = h >= 12 ? 'PM' : 'AM';
+    if (h === 0) h = 12;
+    else if (h > 12) h -= 12;
+  }
+  return [[h, mins], ampm];
 }
 
 function setAmPm(fid, val, btn) {
@@ -2331,10 +2344,8 @@ async function saveDateTime(fid) {
   const ampm = ampmActive?.textContent || 'AM';
   let timeStr = null;
   if (th && tm) {
-    let h = parseInt(th);
-    if (ampm === 'PM' && h !== 12) h += 12;
-    if (ampm === 'AM' && h === 12) h = 0;
-    timeStr = `${String(h).padStart(2,'0')}:${tm} ${ampm}`;
+    // Store in clean 12hr format: "8:30 PM"
+    timeStr = `${parseInt(th)}:${tm} ${ampm}`;
   }
   try {
     await sbUpdate('ppl_fixtures', { match_date: d||null, match_time: timeStr }, `id=eq.${fid}`);
@@ -3409,15 +3420,19 @@ function formatDT(s) {
 }
 function formatMatchTime(t) {
   if (!t) return '';
-  // Already has AM/PM (e.g. "08:30 AM") — just return as-is
-  if (/AM|PM/i.test(t)) return t.replace(/\s*(AM|PM)/i, ' $1').toUpperCase();
-  // Legacy 24hr format (e.g. "20:30") — convert to 12hr
-  const [hStr, mStr] = t.split(':');
-  let h = parseInt(hStr), m = mStr || '00';
+  // Strip any existing AM/PM suffix and parse the hour
+  const ampmMatch = t.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)?$/i);
+  if (!ampmMatch) return t;
+  let h = parseInt(ampmMatch[1]);
+  const mins = ampmMatch[2];
+  const suffix = (ampmMatch[3] || '').toUpperCase();
+  // If already in 12hr range (1-12) and has AM/PM — trust it
+  if (suffix && h >= 1 && h <= 12) return `${h}:${mins} ${suffix}`;
+  // Otherwise treat as 24hr and convert
   const ampm = h >= 12 ? 'PM' : 'AM';
   if (h === 0) h = 12;
   else if (h > 12) h -= 12;
-  return `${h}:${m} ${ampm}`;
+  return `${h}:${mins} ${ampm}`;
 }
 
 // ═══════════════════════════════════════════════════════
