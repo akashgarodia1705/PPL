@@ -2037,7 +2037,7 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
             <div style="display:flex;align-items:center;gap:4px;flex-shrink:0;">
               ${f.played ? `<span class="match-score">${f.total1} – ${f.total2}</span>` : ''}
               ${isWalkover ? `<span class="walkover-label">W/O</span>` : ''}
-              ${isAdmin && f.played ? `<button class="btn btn-sm ${isLocked?'btn-outline':'btn-ghost'}" onclick="event.stopPropagation();toggleLock('${f.id}')" style="padding:3px 7px;font-size:0.7rem;">${isLocked ? '🔒' : '🔓'}</button>` : ''}
+              ${isAdmin && f.played ? `<button class="btn btn-sm ${isLocked?'btn-outline':'btn-ghost'}" onclick="event.stopPropagation();toggleLock('${f.id}')" style="padding:3px 7px;font-size:0.7rem;border:1px solid ${isLocked?'rgba(74,158,255,0.4)':'rgba(255,255,255,0.15)'};">${isLocked ? '🔒 Locked' : '🔓 Unlock'}</button>` : isLocked ? `<span style="font-size:0.75rem;">🔒</span>` : ''}
             </div>
           </div>
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
@@ -2057,6 +2057,12 @@ function renderMatchCard(f, isAdmin, canScore, matchNum) {
         ${dateTimeHTML}
         ${walkoverHTML}
         ${saveRow}
+        ${isAdmin && f.played ? `
+        <div style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,0.06);display:flex;justify-content:flex-end;">
+          <button class="btn btn-sm ${isLocked?'btn-outline':'btn-ghost'}" onclick="toggleLock('${f.id}')" style="border:1px solid ${isLocked?'rgba(74,158,255,0.4)':'rgba(255,255,255,0.15)'};">
+            ${isLocked ? '🔒 Unlock Match' : '🔓 Lock Match'}
+          </button>
+        </div>` : ''}
       </div>
     </div>
   `;
